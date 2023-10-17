@@ -9,13 +9,13 @@ const Hero = () => {
 
   return (
     <div className='relative isolate px-6 pt-14 lg:px-8'>
-      <div className='mx-auto max-w-2xl py-32 sm:py-48 lg:py-56'>
+      <div className='mx-auto max-w-2xl pt-20 sm:pt-48 lg:pt-56'>
         <div className='text-center'>
           <h1 className='text-4xl font-bold tracking-tight sm:text-6xl'>
             The Revenue Calculator Taxi Drivers Need
           </h1>
           <p className='mt-6 text-lg leading-8 text-muted-foreground'>
-            REXI takes care of calculations so you can focus what matters.
+            REXI takes care of calculations so you can focus on what matters.
           </p>
           <div className='mt-8'>
             {!isSignedIn && isLoaded && (

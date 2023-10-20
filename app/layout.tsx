@@ -7,8 +7,9 @@ import { ThemeProvider } from '@/components/theme-provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'REXI | Revenue Calculator for Taxi Drivers',
-  description: 'Rexi takes care of paperwork so you can focus what matters.',
+  title: 'REXI | Profit Calculator for Taxi Drivers',
+  description:
+    'Rexi takes care of calculations so you can focus on what matters.',
 };
 
 export default function RootLayout({

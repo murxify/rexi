@@ -4,6 +4,8 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { Database } from '@/lib/database.types';
 
+import WelcomeForm from '../../_components/welcome-form';
+
 const WelcomePage = async () => {
   const cookieStore = cookies();
   const supabase = createServerComponentClient<Database>({
@@ -18,7 +20,7 @@ const WelcomePage = async () => {
   const { data: settings } = await supabase.from('settings').select().single();
   if (settings) redirect('/dashboard');
 
-  return <div>WelcomePage</div>;
+  return <WelcomeForm />;
 };
 
 export default WelcomePage;

@@ -71,9 +71,9 @@ const WelcomeForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      vat_rate: '',
-      vacation_pay_rate: '',
-      share_rate: '',
+      vat_rate: 5.66,
+      vacation_pay_rate: 13,
+      share_rate: 39,
     },
   });
 

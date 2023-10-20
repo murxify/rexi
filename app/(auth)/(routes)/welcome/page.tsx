@@ -13,9 +13,10 @@ const WelcomePage = async () => {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-
   if (!session) redirect('/login');
-  // TODO: Redirect if user has complete profile
+
+  const { data: settings } = await supabase.from('settings').select().single();
+  if (settings) redirect('/dashboard');
 
   return <div>WelcomePage</div>;
 };

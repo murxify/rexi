@@ -1,10 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cn } from '@/lib/utils';
 
-import { Github, Home, Settings } from 'lucide-react';
+import { Github, Home, Loader, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ModeToggle } from '@/components/mode-toggle';
 
@@ -25,7 +27,17 @@ const navigations = [
 ];
 
 const Header = () => {
+  const [loading, setLoading] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const supabase = createClientComponentClient();
+
+  const handleSignOut = async () => {
+    setLoading(true);
+    await supabase.auth.signOut();
+    router.push('/');
+    setLoading(false);
+  };
 
   return (
     <header className='relative z-50 px-2 sm:px-5 py-2 flex items-center justify-between border-b shadow-sm'>
@@ -50,7 +62,12 @@ const Header = () => {
         </nav>
       </div>
       <div className='flex items-center'>
-        <div className='mx-2 sm:mr-0'>{/* Show user avatar */}</div>
+        <div className='mx-2 sm:mr-0'>
+          <Button variant='ghost' size='sm' onClick={handleSignOut}>
+            {loading && <Loader className='mr-2 w-4 h-4 animate-spin' />}Sign
+            out
+          </Button>
+        </div>
         <span className='w-[1px] h-8 bg-muted-foreground/20 dark:bg-muted mr-2 sm:mx-2' />
         <Button variant='ghost' size='icon' asChild>
           <a href='https://github.com/murxify/rexi' target='_blank'>

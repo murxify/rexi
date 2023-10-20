@@ -4,9 +4,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { Database } from '@/lib/database.types';
 
-import Header from './_components/header';
-
-const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
+const WelcomePage = async () => {
   const cookieStore = cookies();
   const supabase = createServerComponentClient<Database>({
     cookies: () => cookieStore,
@@ -17,13 +15,9 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   } = await supabase.auth.getSession();
 
   if (!session) redirect('/login');
+  // TODO: Redirect if user has complete profile
 
-  return (
-    <>
-      <Header />
-      <main className='container p-5'>{children}</main>
-    </>
-  );
+  return <div>WelcomePage</div>;
 };
 
-export default DashboardLayout;
+export default WelcomePage;

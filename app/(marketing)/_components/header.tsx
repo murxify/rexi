@@ -1,7 +1,8 @@
-'use client';
-
 import Link from 'next/link';
-import { useUser } from '@clerk/nextjs';
+import { cookies } from 'next/headers';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+
+import { Database } from '@/lib/database.types';
 
 import { Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,27 +10,34 @@ import { ModeToggle } from '@/components/mode-toggle';
 
 import Logo from '@/components/logo';
 
-const Header = () => {
-  const { isSignedIn, isLoaded } = useUser();
+const Header = async () => {
+  const cookieStore = cookies();
+  const supabase = createServerComponentClient<Database>({
+    cookies: () => cookieStore,
+  });
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
   return (
     <header className='z-50 p-5'>
       <div className='flex items-center justify-between max-w-7xl mx-auto'>
         <Logo />
         <div className='flex items-center'>
-          {!isSignedIn && isLoaded && (
+          {!session && (
             <>
               <Button variant='ghost' className='sm:mr-2' asChild>
-                <Link href='/sign-in'>
+                <Link href='/login'>
                   Log in <span className='ml-2'>&rarr;</span>
                 </Link>
               </Button>
               <Button size='sm' className='hidden sm:flex' asChild>
-                <Link href='/sign-up'>Get started</Link>
+                <Link href='/signup'>Get started</Link>
               </Button>
             </>
           )}
-          {isSignedIn && isLoaded && (
+          {session && (
             <>
               <Button size='sm' className='hidden sm:flex' asChild>
                 <Link href='/dashboard'>Dashboard</Link>

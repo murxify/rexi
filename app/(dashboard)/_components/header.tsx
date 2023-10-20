@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { UserButton, useUser } from '@clerk/nextjs';
 import { cn } from '@/lib/utils';
 
 import { Github, Home, Settings } from 'lucide-react';
@@ -20,13 +19,12 @@ const navigations = [
   },
   {
     name: 'Settings',
-    href: '/settings',
+    href: '/dashboard/settings',
     Icon: Settings,
   },
 ];
 
 const Header = () => {
-  const { isLoaded } = useUser();
   const pathname = usePathname();
 
   return (
@@ -52,11 +50,7 @@ const Header = () => {
         </nav>
       </div>
       <div className='flex items-center'>
-        {isLoaded && (
-          <div className='mx-2 sm:mr-0'>
-            <UserButton afterSignOutUrl='/' />
-          </div>
-        )}
+        <div className='mx-2 sm:mr-0'>{/* Show user avatar */}</div>
         <span className='w-[1px] h-8 bg-muted-foreground/20 dark:bg-muted mr-2 sm:mx-2' />
         <Button variant='ghost' size='icon' asChild>
           <a href='https://github.com/murxify/rexi' target='_blank'>

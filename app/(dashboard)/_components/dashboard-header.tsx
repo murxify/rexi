@@ -110,10 +110,11 @@ const DashboardHeader = () => {
     const vat_amount = revenue * (vat_rate / 100);
     const revenue_ex_vat = revenue - vat_amount;
     const my_share_amount = revenue_ex_vat * (share_rate / 100);
-    const employers_share_amount = revenue_ex_vat - my_share_amount;
     const vacation_pay_amount = my_share_amount * (vacation_pay_rate / 100);
+    const employers_share_amount =
+      revenue_ex_vat - my_share_amount - vacation_pay_amount;
     const expense = vat_amount + employers_share_amount;
-    const profit = revenue - expense + vacation_pay_amount;
+    const profit = revenue - expense;
 
     const newProfit = {
       user_id,

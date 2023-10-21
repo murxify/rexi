@@ -3,7 +3,7 @@ import Footer from './_components/footer';
 
 const MarketingLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='min-h-screen flex flex-col relative'>
+    <div className='min-h-screen grid grid-rows-[auto_1fr_auto] relative'>
       <Header />
       {/* Gradient */}
       <div
@@ -18,7 +18,7 @@ const MarketingLayout = ({ children }: { children: React.ReactNode }) => {
           }}
         />
       </div>
-      <main className='flex-1'>{children}</main>
+      <main>{children}</main>
       {/* Gradient */}
       <div
         className='absolute inset-x-0 top-[calc(100%-22rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-54rem)]'

@@ -12,7 +12,7 @@ const EmptyState = () => {
       >
         <CarTaxiFront className='w-12 h-12' />
         <p className='text-2xl font-semibold tracking-tight mt-4'>
-          Starting building your dashboard!
+          Start building your dashboard!
         </p>
         <p>
           Before we can create any reports, We&apos;ll first need to get som

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useQueryClient } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 
 import { Github, Home, Loader, Settings } from 'lucide-react';
@@ -28,12 +29,14 @@ const navigations = [
 
 const Header = () => {
   const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
   const pathname = usePathname();
   const router = useRouter();
   const supabase = createClientComponentClient();
 
   const handleSignOut = async () => {
     setLoading(true);
+    queryClient.clear();
     await supabase.auth.signOut();
     router.push('/');
     setLoading(false);

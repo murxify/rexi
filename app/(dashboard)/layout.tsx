@@ -4,6 +4,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { Database } from '@/lib/database.types';
 
+import { Toaster } from '@/components/ui/toaster';
 import Header from './_components/header';
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
@@ -22,6 +23,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
     <>
       <Header />
       <main className='container p-5'>{children}</main>
+      <Toaster />
     </>
   );
 };

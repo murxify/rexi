@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,45 +20,43 @@ import {
 import { Input } from '@/components/ui/input';
 import { LoaderIcon } from 'lucide-react';
 
-const formSchema = z
-  .object({
-    vat_rate: z.coerce
-      .number({
-        required_error: 'VAT rate is required.',
-        invalid_type_error: 'VAT rate must be a number.',
-      })
-      .positive({
-        message: 'VAT rate must be greater than 0.',
-      })
-      .lte(100, {
-        message: 'VAT rate must be less than or equal to 100.',
-      }),
+const formSchema = z.object({
+  vat_rate: z.coerce
+    .number({
+      required_error: 'VAT rate is required.',
+      invalid_type_error: 'VAT rate must be a number.',
+    })
+    .positive({
+      message: 'VAT rate must be greater than 0.',
+    })
+    .lte(100, {
+      message: 'VAT rate must be less than or equal to 100.',
+    }),
 
-    vacation_pay_rate: z.coerce
-      .number({
-        required_error: 'Vacation pay is required.',
-        invalid_type_error: 'Vacation pay must be a number.',
-      })
-      .positive({
-        message: 'Vacation pay must be greater than 0.',
-      })
-      .lte(100, {
-        message: 'Vacation pay must be less than or equal to 100.',
-      }),
+  share_rate: z.coerce
+    .number({
+      required_error: 'Share rate is required.',
+      invalid_type_error: 'Share rate must be a number.',
+    })
+    .positive({
+      message: 'Share rate must be greater than 0.',
+    })
+    .lte(100, {
+      message: 'Share rate must be less than or equal to 100.',
+    }),
 
-    share_rate: z.coerce
-      .number({
-        required_error: 'Share rate is required.',
-        invalid_type_error: 'Share rate must be a number.',
-      })
-      .positive({
-        message: 'Share rate must be greater than 0.',
-      })
-      .lte(100, {
-        message: 'Share rate must be less than or equal to 100.',
-      }),
-  })
-  .required();
+  vacation_pay_rate: z.coerce
+    .number({
+      required_error: 'Vacation pay is required.',
+      invalid_type_error: 'Vacation pay must be a number.',
+    })
+    .positive({
+      message: 'Vacation pay must be greater than 0.',
+    })
+    .lte(100, {
+      message: 'Vacation pay must be less than or equal to 100.',
+    }),
+});
 
 const WelcomeForm = () => {
   const [error, setError] = useState('');
@@ -70,14 +67,9 @@ const WelcomeForm = () => {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      vat_rate: 5.66,
-      vacation_pay_rate: 13,
-      share_rate: 39,
-    },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(userInput: z.infer<typeof formSchema>) {
     setError('');
     setLoading(true);
 
@@ -85,13 +77,13 @@ const WelcomeForm = () => {
       data: { user },
     } = await supabase.auth.getUser();
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('settings')
-      .insert([{ ...values, user_id: user?.id }])
+      .insert({ ...userInput, user_id: user?.id as string })
       .select();
 
     if (error) setError('Something went wrong.');
-    if (data) router.push('/dashboard');
+    if (!error) router.push('/dashboard');
 
     setLoading(false);
   }
@@ -117,7 +109,7 @@ const WelcomeForm = () => {
                 <FormItem>
                   <FormLabel>VAT rate %</FormLabel>
                   <FormControl>
-                    <Input type='number' placeholder='5.66' {...field} />
+                    <Input placeholder='5.66' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -130,7 +122,7 @@ const WelcomeForm = () => {
                 <FormItem>
                   <FormLabel>Share rate %</FormLabel>
                   <FormControl>
-                    <Input type='number' placeholder='39' {...field} />
+                    <Input placeholder='39' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -143,7 +135,7 @@ const WelcomeForm = () => {
                 <FormItem>
                   <FormLabel>Vacation Pay rate %</FormLabel>
                   <FormControl>
-                    <Input type='number' placeholder='13' {...field} />
+                    <Input placeholder='13' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

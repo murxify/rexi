@@ -9,27 +9,79 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      settings: {
+      profits: {
         Row: {
           created_at: string
-          share_rate: number | null
-          user_id: string | null
-          vacation_pay_rate: number | null
-          vat_rate: number | null
+          date: string
+          employers_share_amount: number
+          expense: number
+          id: number
+          my_share_amount: number
+          profit: number
+          revenue: number
+          revenue_ex_vat: number
+          user_id: string
+          vacation_pay_amount: number
+          vat_amount: number
         }
         Insert: {
           created_at?: string
-          share_rate?: number | null
-          user_id?: string | null
-          vacation_pay_rate?: number | null
-          vat_rate?: number | null
+          date: string
+          employers_share_amount: number
+          expense: number
+          id?: number
+          my_share_amount: number
+          profit: number
+          revenue: number
+          revenue_ex_vat: number
+          user_id: string
+          vacation_pay_amount: number
+          vat_amount: number
         }
         Update: {
           created_at?: string
-          share_rate?: number | null
-          user_id?: string | null
-          vacation_pay_rate?: number | null
-          vat_rate?: number | null
+          date?: string
+          employers_share_amount?: number
+          expense?: number
+          id?: number
+          my_share_amount?: number
+          profit?: number
+          revenue?: number
+          revenue_ex_vat?: number
+          user_id?: string
+          vacation_pay_amount?: number
+          vat_amount?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profits_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      settings: {
+        Row: {
+          created_at: string
+          share_rate: number
+          user_id: string
+          vacation_pay_rate: number
+          vat_rate: number
+        }
+        Insert: {
+          created_at?: string
+          share_rate: number
+          user_id: string
+          vacation_pay_rate: number
+          vat_rate: number
+        }
+        Update: {
+          created_at?: string
+          share_rate?: number
+          user_id?: string
+          vacation_pay_rate?: number
+          vat_rate?: number
         }
         Relationships: [
           {

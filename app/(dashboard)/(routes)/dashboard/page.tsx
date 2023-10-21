@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import Overview from '../../_components/overview';
 import DashboardHeader from '../../_components/dashboard-header';
+import Reports from '../../_components/reports';
 
 const DashboardPage = async () => {
   const cookieStore = cookies();
@@ -30,7 +31,9 @@ const DashboardPage = async () => {
         <TabsContent value='overview'>
           <Overview />
         </TabsContent>
-        <TabsContent value='reports'>A list of all reports</TabsContent>
+        <TabsContent value='reports'>
+          <Reports />
+        </TabsContent>
       </Tabs>
     </>
   );

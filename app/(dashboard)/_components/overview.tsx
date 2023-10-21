@@ -10,7 +10,9 @@ import {
   BadgeMinus,
   BadgePlus,
 } from 'lucide-react';
+
 import OverviewCard from './overview-card';
+import EmptyState from './empty-state';
 
 const Overview = () => {
   const supabase = createClientComponentClient<Database>();
@@ -25,7 +27,7 @@ const Overview = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('profits')
-        .select('expense,profit,revenue, date');
+        .select('expense,profit,revenue,date');
 
       if (error) throw error;
       return data;
@@ -41,7 +43,7 @@ const Overview = () => {
   }
 
   if (profits.length === 0) {
-    return <span>Start adding revenue...</span>;
+    return <EmptyState />;
   }
 
   let totalRevenue = 0;

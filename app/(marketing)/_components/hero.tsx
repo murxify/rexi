@@ -16,8 +16,8 @@ const Hero = async () => {
   } = await supabase.auth.getSession();
 
   return (
-    <div className='relative isolate px-6 lg:px-8 flex items-center h-full -mt-16'>
-      <div className='mx-auto max-w-2xl'>
+    <div className='relative isolate px-6 lg:px-8 flex items-center h-full'>
+      <div className='mx-auto max-w-2xl -mt-16'>
         <div className='text-center'>
           <h1 className='text-4xl font-bold tracking-tight sm:text-6xl'>
             The Profit Calculator Taxi Drivers Need

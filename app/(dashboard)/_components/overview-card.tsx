@@ -41,7 +41,7 @@ const OverviewCard = ({
             {/* This line should show the average */}
             {/* <Line  stroke='#82ca9d' /> */}
 
-            <Line dataKey={dataKey} stroke='#8884d8' />
+            <Line type='monotone' dataKey={dataKey} stroke='#8884d8' />
             <Tooltip content={<CustomToolTip />} />
           </LineChart>
         </ResponsiveContainer>

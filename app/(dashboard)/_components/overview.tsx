@@ -13,7 +13,6 @@ import {
 
 import OverviewCard from './overview-card';
 import EmptyState from './empty-state';
-import { useEffect } from 'react';
 
 const Overview = () => {
   const supabase = createClientComponentClient<Database>();
@@ -28,7 +27,8 @@ const Overview = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('profits')
-        .select('expense,profit,revenue,date');
+        .select('expense,profit,revenue,date')
+        .order('date', { ascending: true });
 
       if (error) throw error;
       return data;

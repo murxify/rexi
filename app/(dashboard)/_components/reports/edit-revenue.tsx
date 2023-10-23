@@ -10,7 +10,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 
-import { Coins, LoaderIcon } from 'lucide-react';
+import { Coins, LoaderIcon, PiggyBank } from 'lucide-react';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -47,6 +47,15 @@ const formSchema = z.object({
       message: 'Revenue must be greater than 0.',
     }),
 
+  newTips: z.coerce
+    .number({
+      required_error: 'Tips is required.',
+      invalid_type_error: 'Tips must be a number.',
+    })
+    .nonnegative({
+      message: "Tips can't be negative.",
+    }),
+
   newDate: z.date({
     required_error: 'Date is required.',
   }),
@@ -76,6 +85,7 @@ const EditRevenue = ({
     defaultValues: useMemo(() => {
       return {
         newRevenue: selected?.revenue,
+        newTips: selected?.tips!,
         newDate: new Date(selected?.date!),
       };
     }, [selected]),
@@ -85,6 +95,7 @@ const EditRevenue = ({
   useEffect(() => {
     form.reset({
       newRevenue: selected?.revenue || 0,
+      newTips: selected?.tips || 0,
       newDate: new Date(selected?.date! || new Date()),
     });
   }, [selected]);
@@ -131,30 +142,31 @@ const EditRevenue = ({
   });
 
   const onEditRevenue = (userInput: z.infer<typeof formSchema>) => {
-    const { newRevenue, newDate } = userInput;
+    const { newRevenue, newDate, newTips } = userInput;
     const { share_rate, vacation_pay_rate, vat_rate } = settings!;
 
     // Nothing has changed
     if (
       newRevenue === selected?.revenue &&
+      newTips === selected.tips &&
       newDate.toDateString() === new Date(selected?.date!).toDateString()
     ) {
       return toast({
-        title: 'Something went wrong.',
-        description: 'There was nothing to change.',
+        title: 'What would you like to edit?',
         variant: 'destructive',
       });
     }
 
-    // Only date has changed
-    if (
-      newRevenue === selected?.revenue &&
-      newDate.toDateString() !== new Date(selected?.date!).toDateString()
-    ) {
-      return editById({ date: newDate.toDateString() });
+    // Revenue has not changed
+    if (newRevenue === selected?.revenue) {
+      return editById({
+        date: newDate.toDateString(),
+        tips: newTips,
+        profit: selected.profit - selected.tips! + newTips,
+      });
     }
 
-    // Revenue has also changed
+    // Revenue has changed
     const vat_amount = newRevenue * (vat_rate / 100);
     const revenue_ex_vat = newRevenue - vat_amount;
     const my_share_amount = revenue_ex_vat * (share_rate / 100);
@@ -162,7 +174,7 @@ const EditRevenue = ({
     const employers_share_amount =
       revenue_ex_vat - my_share_amount - vacation_pay_amount;
     const expense = vat_amount + employers_share_amount;
-    const profit = newRevenue - expense;
+    const profit = newRevenue - expense + newTips;
 
     const newProfit = {
       vat_amount,
@@ -174,6 +186,7 @@ const EditRevenue = ({
       profit,
       revenue: newRevenue,
       date: newDate.toDateString(),
+      tips: newTips,
     };
 
     editById(newProfit);
@@ -210,6 +223,22 @@ const EditRevenue = ({
                     <div className='inline-flex items-center justify-end'>
                       <Input placeholder='3456' {...field} />
                       <Coins className='absolute h-4 w-4 opacity-50 mr-4' />
+                    </div>
+                  </FormControl>
+                  <FormMessage className='col-start-2 col-end-5' />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='newTips'
+              render={({ field }) => (
+                <FormItem className='grid grid-cols-4 items-center'>
+                  <FormLabel className='text-right mr-4'>Tips</FormLabel>
+                  <FormControl className='col-span-3'>
+                    <div className='inline-flex items-center justify-end'>
+                      <Input placeholder='0' {...field} />
+                      <PiggyBank className='absolute h-4 w-4 opacity-50 mr-4' />
                     </div>
                   </FormControl>
                   <FormMessage className='col-start-2 col-end-5' />

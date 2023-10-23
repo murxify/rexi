@@ -52,6 +52,11 @@ export const columns: ColumnDef<
     ),
   },
   {
+    accessorKey: 'tips',
+    header: () => <div>Tips</div>,
+    cell: ({ row }) => <div>{formatCurrency(row.getValue('tips'))}</div>,
+  },
+  {
     accessorKey: 'profit',
     header: () => <div>Profit</div>,
     cell: ({ row }) => <div>{formatCurrency(row.getValue('profit'))}</div>,

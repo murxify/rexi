@@ -10,13 +10,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 
-import { Coins, LoaderIcon } from 'lucide-react';
+import { Coins, LoaderIcon, PiggyBank } from 'lucide-react';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -49,6 +48,15 @@ const formSchema = z.object({
       message: 'Revenue must be greater than 0.',
     }),
 
+  tips: z.coerce
+    .number({
+      required_error: 'Tips is required.',
+      invalid_type_error: 'Tips must be a number.',
+    })
+    .nonnegative({
+      message: "Tips can't be negative.",
+    }),
+
   date: z.date({
     required_error: 'Date is required.',
   }),
@@ -65,6 +73,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
     defaultValues: {
       date: new Date(),
       revenue: 3456,
+      tips: 0,
     },
   });
 
@@ -94,7 +103,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
     onError: () =>
       toast({
         title: 'Something went wrong.',
-        description: 'There was a problem with your request.',
+        description: 'There was a problem adding your revenue.',
         variant: 'destructive',
       }),
     onSuccess: () => {
@@ -109,7 +118,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
   });
 
   const onAddRevenue = (userInput: z.infer<typeof formSchema>) => {
-    const { revenue, date } = userInput;
+    const { revenue, date, tips } = userInput;
     const { share_rate, vacation_pay_rate, vat_rate, user_id } = settings!;
 
     const vat_amount = revenue * (vat_rate / 100);
@@ -119,7 +128,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
     const employers_share_amount =
       revenue_ex_vat - my_share_amount - vacation_pay_amount;
     const expense = vat_amount + employers_share_amount;
-    const profit = revenue - expense;
+    const profit = revenue - expense + tips;
 
     const newProfit = {
       user_id,
@@ -132,6 +141,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
       profit,
       revenue,
       date: date.toDateString(),
+      tips,
     };
 
     addRevenue(newProfit);
@@ -170,6 +180,22 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
                     <div className='inline-flex items-center justify-end'>
                       <Input placeholder='3456' {...field} />
                       <Coins className='absolute h-4 w-4 opacity-50 mr-4' />
+                    </div>
+                  </FormControl>
+                  <FormMessage className='col-start-2 col-end-5' />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='tips'
+              render={({ field }) => (
+                <FormItem className='grid grid-cols-4 items-center'>
+                  <FormLabel className='text-right mr-4'>Tips</FormLabel>
+                  <FormControl className='col-span-3'>
+                    <div className='inline-flex items-center justify-end'>
+                      <Input placeholder='0' {...field} />
+                      <PiggyBank className='absolute h-4 w-4 opacity-50 mr-4' />
                     </div>
                   </FormControl>
                   <FormMessage className='col-start-2 col-end-5' />

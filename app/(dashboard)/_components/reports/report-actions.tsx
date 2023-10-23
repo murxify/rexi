@@ -26,11 +26,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import EditRevenue from './edit-revenue';
 
 type DataType = Database['public']['Tables']['profits']['Row'];
 
 const ReportActions = ({ data }: { data: DataType }) => {
   const [openDelete, setOpenDelete] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const [selected, setSelected] = useState<DataType | null>(null);
 
   const queryClient = useQueryClient();
@@ -69,7 +71,8 @@ const ReportActions = ({ data }: { data: DataType }) => {
   };
 
   const handleEditDialog = (data: DataType) => {
-    console.log('EDITING', data.id);
+    setSelected(data);
+    setOpenEdit(true);
   };
 
   return (
@@ -120,6 +123,14 @@ const ReportActions = ({ data }: { data: DataType }) => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Edit Dialog */}
+      <EditRevenue
+        openEdit={openEdit}
+        selected={selected}
+        setOpenEdit={setOpenEdit}
+        setSelected={setSelected}
+      />
     </>
   );
 };

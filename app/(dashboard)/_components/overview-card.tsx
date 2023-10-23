@@ -7,17 +7,15 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { LucideIcon } from 'lucide-react';
+import { Database } from '@/lib/database.types';
+
+import { formatCurrency } from '@/utils/currency';
 
 interface OverviewCardProps {
   title: string;
   amount: number;
   Icon: LucideIcon;
-  data: {
-    expense: number;
-    profit: number;
-    revenue: number;
-    date: string;
-  }[];
+  data: Database['public']['Tables']['profits']['Row'][];
   dataKey: 'revenue' | 'profit' | 'expense';
 }
 
@@ -35,7 +33,7 @@ const OverviewCard = ({
         <Icon className='w-5 h-5 text-muted-foreground' />
       </CardHeader>
       <CardContent className='pb-0'>
-        <p className='text-2xl font-bold'>{amount} kr</p>
+        <p className='text-2xl font-bold'>{formatCurrency(amount)}</p>
         <ResponsiveContainer height={100}>
           <LineChart data={data}>
             {/* This line should show the average */}
@@ -64,7 +62,7 @@ const CustomToolTip = ({ payload, label, active }: any) => {
         </CardHeader>
         <CardContent className='p-2 px-4 pt-0'>
           <p className='text-base font-semibold'>
-            {payload[0].value.toFixed(2)} kr
+            {formatCurrency(payload[0].value)}
           </p>
         </CardContent>
       </Card>

@@ -27,7 +27,7 @@ const Overview = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('profits')
-        .select('expense,profit,revenue,date')
+        .select()
         .order('date', { ascending: true });
 
       if (error) throw error;
@@ -66,21 +66,21 @@ const Overview = () => {
     <>
       <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-6 py-2'>
         <OverviewCard
-          amount={+totalRevenue.toFixed(2)}
+          amount={totalRevenue}
           title='Total Revenue'
           Icon={BadgeDollarSign}
           data={profits}
           dataKey='revenue'
         />
         <OverviewCard
-          amount={+totalProfits.toFixed(2)}
+          amount={totalProfits}
           title='Total Profits'
           Icon={BadgePlus}
           data={profits}
           dataKey='profit'
         />
         <OverviewCard
-          amount={+totalExpenses.toFixed(2)}
+          amount={totalExpenses}
           title='Total Expenses'
           Icon={BadgeMinus}
           data={profits}
@@ -90,28 +90,28 @@ const Overview = () => {
       {/* Same as above but with average card */}
       {/* <div className='grid sm:grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6 py-2'>
         <OverviewCard
-          amount={+totalRevenue.toFixed(2)}
+          amount={totalRevenue}
           title='Total Revenue'
           Icon={BadgeDollarSign}
           data={profits}
           dataKey='revenue'
         />
         <OverviewCard
-          amount={+totalProfits.toFixed(2)}
+          amount={totalProfits}
           title='Total Profits'
           Icon={BadgePlus}
           data={profits}
           dataKey='profit'
         />
         <OverviewCard
-          amount={+totalExpenses.toFixed(2)}
+          amount={totalExpenses}
           title='Total Expenses'
           Icon={BadgeMinus}
           data={profits}
           dataKey='expense'
         />
         <OverviewCard
-          amount={+avgRevenue.toFixed(2)}
+          amount={avgRevenue}
           title='Avg. Revenue'
           Icon={AlignCenterHorizontal}
           data={profits}

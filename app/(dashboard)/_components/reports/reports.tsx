@@ -4,7 +4,10 @@ import { useQuery } from '@tanstack/react-query';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
 
-import EmptyState from './empty-state';
+import { columns } from './columns';
+import DataTable from './data-table';
+
+import EmptyState from '../empty-state';
 
 const Reports = () => {
   const supabase = createClientComponentClient<Database>();
@@ -36,7 +39,7 @@ const Reports = () => {
     return <EmptyState />;
   }
 
-  return <div>Reports</div>;
+  return <DataTable columns={columns} data={profits} />;
 };
 
 export default Reports;

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -54,6 +55,7 @@ const formSchema = z.object({
 });
 
 const AddRevenue = ({ children }: { children: React.ReactNode }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const supabase = createClientComponentClient<Database>();
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -62,6 +64,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       date: new Date(),
+      revenue: 3456,
     },
   });
 
@@ -76,7 +79,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
     },
   });
 
-  const mutation = useMutation({
+  const { mutate: addRevenue, isPending } = useMutation({
     mutationFn: async (
       newProfit: Database['public']['Tables']['profits']['Insert']
     ) => {
@@ -100,6 +103,8 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
         description: 'Revenue added successfully!',
         variant: 'success',
       });
+      setIsOpen(false);
+      form.reset();
     },
   });
 
@@ -129,12 +134,20 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
       date: date.toDateString(),
     };
 
-    mutation.mutate(newProfit);
+    addRevenue(newProfit);
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(isOpen) => {
+        if (isOpen === true) return;
+        setIsOpen(false);
+      }}
+    >
+      <DialogTrigger asChild onClick={() => setIsOpen(true)}>
+        {children}
+      </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>Add revenue</DialogTitle>
@@ -205,21 +218,15 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
                 </FormItem>
               )}
             />
-            <DialogClose asChild>
-              <Button
-                type='submit'
-                className='ml-auto'
-                disabled={mutation.isPending}
-              >
-                {!mutation.isPending && 'Add revenue'}
-                {mutation.isPending && (
-                  <>
-                    <LoaderIcon className='w-4 h-4 animate-spin mr-2' />
-                    Adding...
-                  </>
-                )}
-              </Button>
-            </DialogClose>
+            <Button type='submit' className='ml-auto' disabled={isPending}>
+              {!isPending && 'Add revenue'}
+              {isPending && (
+                <>
+                  <LoaderIcon className='w-4 h-4 animate-spin mr-2' />
+                  Adding...
+                </>
+              )}
+            </Button>
           </form>
         </Form>
       </DialogContent>

@@ -5,22 +5,29 @@ import { Database } from '@/lib/database.types';
 
 import { formatCurrency } from '@/utils/currency';
 import ReportActions from './report-actions';
+import DataTableColumnHeader from './data-table-column-header';
 
 export const columns: ColumnDef<
   Database['public']['Tables']['profits']['Row']
 >[] = [
   {
     accessorKey: 'date',
-    header: 'Date',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Date' />
+    ),
+    enableHiding: false,
   },
   {
     accessorKey: 'revenue',
-    header: () => <div>Revenue</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Revenue' />
+    ),
     cell: ({ row }) => <div>{formatCurrency(row.getValue('revenue'))}</div>,
+    enableHiding: false,
   },
   {
     accessorKey: 'revenue_ex_vat',
-    header: () => <div>Revenue Ex VAT</div>,
+    header: () => <div>Rev. Ex VAT</div>,
     cell: ({ row }) => (
       <div>{formatCurrency(row.getValue('revenue_ex_vat'))}</div>
     ),
@@ -53,18 +60,26 @@ export const columns: ColumnDef<
   },
   {
     accessorKey: 'tips',
-    header: () => <div>Tips</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Tips' />
+    ),
     cell: ({ row }) => <div>{formatCurrency(row.getValue('tips'))}</div>,
   },
   {
     accessorKey: 'profit',
-    header: () => <div>Profit</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Profit' />
+    ),
     cell: ({ row }) => <div>{formatCurrency(row.getValue('profit'))}</div>,
+    enableHiding: false,
   },
   {
     accessorKey: 'expense',
-    header: () => <div>Expense</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Expense' />
+    ),
     cell: ({ row }) => <div>{formatCurrency(row.getValue('expense'))}</div>,
+    enableHiding: false,
   },
   {
     id: 'actions',
@@ -73,5 +88,6 @@ export const columns: ColumnDef<
 
       return <ReportActions data={data} />;
     },
+    enableHiding: false,
   },
 ];

@@ -1,15 +1,10 @@
 import { LineChart, Line, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { LucideIcon } from 'lucide-react';
 import { Database } from '@/lib/database.types';
 
 import { formatCurrency } from '@/utils/currency';
+import CustomToolTip from './custom-tooltip';
 
 interface OverviewCardProps {
   title: string;
@@ -36,10 +31,11 @@ const OverviewCard = ({
         <p className='text-2xl font-bold'>{formatCurrency(amount)}</p>
         <ResponsiveContainer height={100}>
           <LineChart data={data}>
-            {/* This line should show the average */}
-            {/* <Line  stroke='#82ca9d' /> */}
-
-            <Line type='monotone' dataKey={dataKey} stroke='#8884d8' />
+            <Line
+              type='monotone'
+              dataKey={dataKey}
+              stroke='var(--chart-primary)'
+            />
             <Tooltip content={<CustomToolTip />} />
           </LineChart>
         </ResponsiveContainer>
@@ -49,23 +45,3 @@ const OverviewCard = ({
 };
 
 export default OverviewCard;
-
-const CustomToolTip = ({ payload, label, active }: any) => {
-  if (active) {
-    // console.log(payload);
-    // console.log(label);
-    return (
-      <Card>
-        <CardHeader className='p-2 px-4 space-y-0'>
-          <CardTitle className='text-sm'>{payload[0].payload.date}</CardTitle>
-          <CardDescription>{payload[0].name}:</CardDescription>
-        </CardHeader>
-        <CardContent className='p-2 px-4 pt-0'>
-          <p className='text-base font-semibold'>
-            {formatCurrency(payload[0].value)}
-          </p>
-        </CardContent>
-      </Card>
-    );
-  }
-};

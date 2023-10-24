@@ -20,7 +20,7 @@ export interface Database {
           profit: number
           revenue: number
           revenue_ex_vat: number
-          tips: number | null
+          tips: number
           user_id: string
           vacation_pay_amount: number
           vat_amount: number
@@ -35,7 +35,7 @@ export interface Database {
           profit: number
           revenue: number
           revenue_ex_vat: number
-          tips?: number | null
+          tips: number
           user_id: string
           vacation_pay_amount: number
           vat_amount: number
@@ -50,7 +50,7 @@ export interface Database {
           profit?: number
           revenue?: number
           revenue_ex_vat?: number
-          tips?: number | null
+          tips?: number
           user_id?: string
           vacation_pay_amount?: number
           vat_amount?: number

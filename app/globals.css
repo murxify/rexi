@@ -33,6 +33,11 @@
     --ring: 240 10% 3.9%;
 
     --radius: 0.5rem;
+
+    /* Add custom variables below this line */
+    --chart-primary: #8884d8;
+    --chart-secondary: #82ca9d;
+    --chart-grid: 240 4.8% 95.9%;
   }
 
   .dark {
@@ -63,6 +68,11 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+
+    /* Add custom variables below this line */
+    --chart-primary: #807ad8;
+    --chart-secondary: #48ad6f;
+    --chart-grid: 240 5.9% 10%;
   }
 }
 

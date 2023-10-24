@@ -4,13 +4,12 @@ import { useQuery } from '@tanstack/react-query';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
 
-import { cn } from '@/lib/utils';
 import { BadgeDollarSign, BadgeMinus, BadgePlus, Clock } from 'lucide-react';
-import { Card } from '@/components/ui/card';
 
 import EmptyState from './empty-state';
 import RevProBarChart from './revpro-bar-chart';
 import OverviewCard from './overview-card';
+import AvgCard from './avg-card';
 
 const Overview = () => {
   const supabase = createClientComponentClient<Database>();
@@ -43,19 +42,38 @@ const Overview = () => {
   let totalRevenue = 0;
   let totalProfits = 0;
   let totalExpenses = 0;
-  let totalTips = 0;
-  let avgRevenue = 0;
-  let avgProfits = 0;
-  let avgExpenses = 0;
-  data.forEach((profit) => {
-    totalRevenue += profit.revenue;
-    totalProfits += profit.profit;
-    totalExpenses += profit.expense;
-    totalTips += profit.tips;
+  // let totalTips = 0;
+
+  data.forEach((item) => {
+    totalRevenue += item.revenue;
+    totalProfits += item.profit;
+    totalExpenses += item.expense;
+    // totalTips += item.tips;
   });
-  avgRevenue = totalRevenue / data.length;
-  avgProfits = totalProfits / data.length;
-  avgExpenses = totalExpenses / data.length;
+
+  const avgData = [
+    {
+      title: 'Avg. Revenue',
+      avgAmount: totalRevenue / data.length,
+      Icon: BadgeDollarSign,
+    },
+    {
+      title: 'Avg. Profit',
+      avgAmount: totalProfits / data.length,
+      Icon: BadgePlus,
+    },
+    {
+      title: 'Avg. Expense',
+      avgAmount: totalExpenses / data.length,
+      Icon: BadgeMinus,
+    },
+    {
+      title: 'Avg. Shift Duration',
+      // TODO: Calculate average shift duration
+      avgAmount: 8.7,
+      Icon: Clock,
+    },
+  ];
 
   return (
     <div className='grid sm:grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6 py-2'>
@@ -81,21 +99,14 @@ const Overview = () => {
         dataKey='expense'
       />
       <OverviewCard
-        amount={avgRevenue}
+        amount={totalProfits}
         title='Total Hours'
         Icon={Clock}
         data={data}
         dataKey='revenue'
       />
-      <Card
-        className={cn(
-          'sm:col-span-2 p-2',
-          data.length >= 20 && 'lg:col-span-3'
-        )}
-      >
-        <RevProBarChart data={data} />
-      </Card>
-      <Card className='p-2 col-span-1'>Pie Chart</Card>
+      <RevProBarChart data={data} />
+      <AvgCard data={avgData} />
     </div>
   );
 };

@@ -11,8 +11,12 @@ import {
   YAxis,
 } from 'recharts';
 
-import CustomToolTip from './custom-tooltip';
+import { cn } from '@/lib/utils';
 import { formatCurrency } from '@/utils/currency';
+
+import { Card } from '@/components/ui/card';
+
+import CustomToolTip from './custom-tooltip';
 
 interface RevProBarChartProps {
   data: Database['public']['Tables']['profits']['Row'][];
@@ -29,31 +33,35 @@ const RevProBarChart = ({ data }: RevProBarChartProps) => {
   });
 
   return (
-    <ResponsiveContainer height={400}>
-      <BarChart data={modifiedData} margin={{ left: -15 }}>
-        <CartesianGrid stroke='hsl(var(--chart-grid))' />
-        <XAxis
-          dataKey='day'
-          height={40}
-          angle={90}
-          stroke='hsl(var(--muted-foreground))'
-          tick={<CustomXAxisTick />}
-        />
-        <YAxis
-          tick={<CustomYAxisTick />}
-          stroke='hsl(var(--muted-foreground))'
-        />
-        <Tooltip
-          content={<CustomToolTip />}
-          cursor={{ fill: 'hsl(var(--accent))' }}
-        />
-        <Legend
-          formatter={(value) => <span className='text-xs'>{value}</span>}
-        />
-        <Bar dataKey='revenue' fill='var(--chart-primary)' />
-        <Bar dataKey='profit' fill='var(--chart-secondary)' />
-      </BarChart>
-    </ResponsiveContainer>
+    <Card
+      className={cn('sm:col-span-2 p-2', data.length >= 20 && 'lg:col-span-3')}
+    >
+      <ResponsiveContainer height={400}>
+        <BarChart data={modifiedData} margin={{ left: -15 }}>
+          <CartesianGrid stroke='hsl(var(--chart-grid))' />
+          <XAxis
+            dataKey='day'
+            height={40}
+            angle={90}
+            stroke='hsl(var(--muted-foreground))'
+            tick={<CustomXAxisTick />}
+          />
+          <YAxis
+            tick={<CustomYAxisTick />}
+            stroke='hsl(var(--muted-foreground))'
+          />
+          <Tooltip
+            content={<CustomToolTip />}
+            cursor={{ fill: 'hsl(var(--accent))' }}
+          />
+          <Legend
+            formatter={(value) => <span className='text-xs'>{value}</span>}
+          />
+          <Bar dataKey='revenue' fill='var(--chart-primary)' />
+          <Bar dataKey='profit' fill='var(--chart-secondary)' />
+        </BarChart>
+      </ResponsiveContainer>
+    </Card>
   );
 };
 

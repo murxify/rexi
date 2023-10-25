@@ -152,9 +152,6 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
     // Calculate shift duration in milliseconds
     const shift_duration = endDate - startDate;
 
-    // const hours = Math.floor(shift_duration / (1000 * 60 * 60));
-    // const minutes = Math.floor((shift_duration / (1000 * 60)) % 60);
-
     const newProfit = {
       user_id,
       vat_amount,
@@ -169,7 +166,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
       tips,
       shift_start,
       shift_end,
-      shift_duration: shift_duration.toString(),
+      shift_duration,
     };
 
     addRevenue(newProfit);

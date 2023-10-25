@@ -8,15 +8,15 @@ import CustomToolTip from './custom-tooltip';
 
 interface OverviewCardProps {
   title: string;
-  amount: number;
+  value: number | string;
   Icon: LucideIcon;
   data: Database['public']['Tables']['profits']['Row'][];
-  dataKey: 'revenue' | 'profit' | 'expense';
+  dataKey: 'revenue' | 'profit' | 'expense' | 'shift_duration';
 }
 
 const OverviewCard = ({
   title,
-  amount,
+  value,
   Icon,
   data,
   dataKey,
@@ -28,7 +28,9 @@ const OverviewCard = ({
         <Icon className='w-5 h-5 text-muted-foreground' />
       </CardHeader>
       <CardContent className='pb-0'>
-        <p className='text-2xl font-bold'>{formatCurrency(amount)}</p>
+        <p className='text-2xl font-bold'>
+          {typeof value === 'number' ? formatCurrency(value) : value}
+        </p>
         <ResponsiveContainer height={100}>
           <LineChart data={data}>
             <Line

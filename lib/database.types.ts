@@ -20,9 +20,9 @@ export interface Database {
           profit: number
           revenue: number
           revenue_ex_vat: number
-          shift_duration: string | null
-          shift_end: string | null
-          shift_start: string | null
+          shift_duration: number
+          shift_end: string
+          shift_start: string
           tips: number
           user_id: string
           vacation_pay_amount: number
@@ -38,9 +38,9 @@ export interface Database {
           profit: number
           revenue: number
           revenue_ex_vat: number
-          shift_duration?: string | null
-          shift_end?: string | null
-          shift_start?: string | null
+          shift_duration: number
+          shift_end: string
+          shift_start: string
           tips: number
           user_id: string
           vacation_pay_amount: number
@@ -56,9 +56,9 @@ export interface Database {
           profit?: number
           revenue?: number
           revenue_ex_vat?: number
-          shift_duration?: string | null
-          shift_end?: string | null
-          shift_start?: string | null
+          shift_duration?: number
+          shift_end?: string
+          shift_start?: string
           tips?: number
           user_id?: string
           vacation_pay_amount?: number

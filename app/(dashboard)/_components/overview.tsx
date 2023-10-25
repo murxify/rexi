@@ -2,7 +2,9 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+
 import { Database } from '@/lib/database.types';
+import getShiftDuration from '@/utils/get-shift-duration';
 
 import { BadgeDollarSign, BadgeMinus, BadgePlus, Clock } from 'lucide-react';
 
@@ -42,35 +44,34 @@ const Overview = () => {
   let totalRevenue = 0;
   let totalProfits = 0;
   let totalExpenses = 0;
-  // let totalTips = 0;
+  let totalHours = 0;
 
   data.forEach((item) => {
     totalRevenue += item.revenue;
     totalProfits += item.profit;
     totalExpenses += item.expense;
-    // totalTips += item.tips;
+    totalHours += item.shift_duration;
   });
 
   const avgData = [
     {
       title: 'Avg. Revenue',
-      avgAmount: totalRevenue / data.length,
+      value: totalRevenue / data.length,
       Icon: BadgeDollarSign,
     },
     {
       title: 'Avg. Profit',
-      avgAmount: totalProfits / data.length,
+      value: totalProfits / data.length,
       Icon: BadgePlus,
     },
     {
       title: 'Avg. Expense',
-      avgAmount: totalExpenses / data.length,
+      value: totalExpenses / data.length,
       Icon: BadgeMinus,
     },
     {
       title: 'Avg. Shift Duration',
-      // TODO: Calculate average shift duration
-      avgAmount: 8.7,
+      value: getShiftDuration(totalHours / data.length),
       Icon: Clock,
     },
   ];
@@ -78,32 +79,32 @@ const Overview = () => {
   return (
     <div className='grid sm:grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6 py-2'>
       <OverviewCard
-        amount={totalRevenue}
+        value={totalRevenue}
         title='Total Revenue'
         Icon={BadgeDollarSign}
         data={data}
         dataKey='revenue'
       />
       <OverviewCard
-        amount={totalProfits}
+        value={totalProfits}
         title='Total Profits'
         Icon={BadgePlus}
         data={data}
         dataKey='profit'
       />
       <OverviewCard
-        amount={totalExpenses}
+        value={totalExpenses}
         title='Total Expenses'
         Icon={BadgeMinus}
         data={data}
         dataKey='expense'
       />
       <OverviewCard
-        amount={totalProfits}
+        value={getShiftDuration(totalHours)}
         title='Total Hours'
         Icon={Clock}
         data={data}
-        dataKey='revenue'
+        dataKey='shift_duration'
       />
       <RevProBarChart data={data} />
       <AvgCard data={avgData} />

@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { formatCurrency } from '@/utils/currency';
+import getShiftDuration from '@/utils/get-shift-duration';
 
 const CustomToolTip = ({ payload, active }: any) => {
   if (active) {
@@ -12,12 +13,16 @@ const CustomToolTip = ({ payload, active }: any) => {
         <CardContent className='p-2 px-4 pt-0'>
           {payload.map((item: any) => (
             <div className='mb-2 last:mb-0' key={item.name}>
-              <p className='text-sm text-muted-foreground'>{item.name}:</p>
+              <p className='text-sm text-muted-foreground'>
+                {item.name === 'shift_duration' ? 'shift duration' : item.name}:
+              </p>
               <p
                 className='text-base font-semibold'
                 style={{ color: item.color }}
               >
-                {formatCurrency(item.value)}
+                {item.name === 'shift_duration'
+                  ? getShiftDuration(item.value)
+                  : formatCurrency(item.value)}
               </p>
             </div>
           ))}

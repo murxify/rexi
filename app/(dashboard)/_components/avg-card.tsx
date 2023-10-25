@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 interface AvgCardProps {
   data: {
     title: string;
-    avgAmount: number;
+    value: number | string;
     Icon: LucideIcon;
   }[];
 }
@@ -22,7 +22,11 @@ const AvgCard = ({ data }: AvgCardProps) => {
             </p>
             <item.Icon className='w-5 h-5 text-muted-foreground' />
           </div>
-          <p className='text-3xl font-bold'>{formatCurrency(item.avgAmount)}</p>
+          <p className='text-3xl font-bold'>
+            {typeof item.value === 'number'
+              ? formatCurrency(item.value)
+              : item.value}
+          </p>
         </div>
       ))}
     </Card>

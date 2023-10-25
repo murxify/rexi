@@ -59,6 +59,9 @@ const formSchema = z.object({
   newDate: z.date({
     required_error: 'Date is required.',
   }),
+
+  newShiftStart: z.string(),
+  newShiftEnd: z.string(),
 });
 
 type DataType = Database['public']['Tables']['profits']['Row'];
@@ -87,6 +90,8 @@ const EditRevenue = ({
         newRevenue: selected?.revenue,
         newTips: selected?.tips!,
         newDate: new Date(selected?.date!),
+        newShiftStart: selected?.shift_start,
+        newShiftEnd: selected?.shift_end,
       };
     }, [selected]),
   });
@@ -97,6 +102,8 @@ const EditRevenue = ({
       newRevenue: selected?.revenue || 0,
       newTips: selected?.tips || 0,
       newDate: new Date(selected?.date! || new Date()),
+      newShiftStart: selected?.shift_start || '09:00',
+      newShiftEnd: selected?.shift_end || '17:00',
     });
   }, [selected]);
 
@@ -142,14 +149,34 @@ const EditRevenue = ({
   });
 
   const onEditRevenue = (userInput: z.infer<typeof formSchema>) => {
-    const { newRevenue, newDate, newTips } = userInput;
+    const { newRevenue, newDate, newTips, newShiftStart, newShiftEnd } =
+      userInput;
     const { share_rate, vacation_pay_rate, vat_rate } = settings!;
+
+    // Calculate total shift hours
+    const startParts = newShiftStart.split(':').map((num) => +num);
+    const endParts = newShiftEnd.split(':').map((num) => +num);
+
+    const startDate = new Date(0, 0, 0, startParts[0], startParts[1]).getTime();
+    const endDate = new Date(
+      0,
+      0,
+      // if end hour is less than start hour, it means the shift ended the next day
+      endParts[0] < startParts[0] ? 1 : 0,
+      endParts[0],
+      endParts[1]
+    ).getTime();
+
+    // Calculate shift duration in milliseconds
+    const shift_duration = endDate - startDate;
 
     // Nothing has changed
     if (
       newRevenue === selected?.revenue &&
       newTips === selected.tips &&
-      newDate.toDateString() === new Date(selected?.date!).toDateString()
+      newDate.toDateString() === new Date(selected?.date!).toDateString() &&
+      newShiftStart === selected.shift_start &&
+      newShiftEnd === selected.shift_end
     ) {
       return toast({
         title: 'What would you like to edit?',
@@ -163,6 +190,9 @@ const EditRevenue = ({
         date: newDate.toDateString(),
         tips: newTips,
         profit: selected.profit - selected.tips! + newTips,
+        shift_duration,
+        shift_start: newShiftStart,
+        shift_end: newShiftEnd,
       });
     }
 
@@ -187,6 +217,9 @@ const EditRevenue = ({
       revenue: newRevenue,
       date: newDate.toDateString(),
       tips: newTips,
+      shift_duration,
+      shift_start: newShiftStart,
+      shift_end: newShiftEnd,
     };
 
     editById(newProfit);
@@ -245,6 +278,42 @@ const EditRevenue = ({
                 </FormItem>
               )}
             />
+            {/* Shift hours */}
+            <div className='grid grid-cols-4 items-center mt-1'>
+              <p className='text-sm font-medium leading-none text-right mr-4 cursor-default'>
+                Shift
+              </p>
+              <div className='col-span-3 grid grid-cols-2 gap-2'>
+                <FormField
+                  control={form.control}
+                  name='newShiftStart'
+                  render={({ field }) => (
+                    <FormItem className='relative'>
+                      <FormLabel className='absolute text-xs bg-background left-2 top-[-2px] px-1 text-muted-foreground'>
+                        start
+                      </FormLabel>
+                      <FormControl>
+                        <Input type='time' required {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='newShiftEnd'
+                  render={({ field }) => (
+                    <FormItem className='relative'>
+                      <FormLabel className='absolute text-xs bg-background left-2 top-[-2px] px-1 text-muted-foreground'>
+                        end
+                      </FormLabel>
+                      <FormControl>
+                        <Input type='time' required {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
             {/* Date component from shadcn-ui */}
             <FormField
               control={form.control}

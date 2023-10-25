@@ -135,7 +135,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
     const expense = vat_amount + employers_share_amount;
     const profit = revenue - expense + tips;
 
-    // Calculate totals shift hours
+    // Calculate total shift hours
     const startParts = shift_start.split(':').map((num) => +num);
     const endParts = shift_end.split(':').map((num) => +num);
 

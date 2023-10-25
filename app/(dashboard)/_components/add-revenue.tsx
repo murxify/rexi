@@ -60,6 +60,9 @@ const formSchema = z.object({
   date: z.date({
     required_error: 'Date is required.',
   }),
+
+  shift_start: z.string(),
+  shift_end: z.string(),
 });
 
 const AddRevenue = ({ children }: { children: React.ReactNode }) => {
@@ -74,6 +77,8 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
       date: new Date(),
       revenue: 3456,
       tips: 0,
+      shift_start: '09:00',
+      shift_end: '17:00',
     },
   });
 
@@ -118,7 +123,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
   });
 
   const onAddRevenue = (userInput: z.infer<typeof formSchema>) => {
-    const { revenue, date, tips } = userInput;
+    const { revenue, date, tips, shift_start, shift_end } = userInput;
     const { share_rate, vacation_pay_rate, vat_rate, user_id } = settings!;
 
     const vat_amount = revenue * (vat_rate / 100);
@@ -129,6 +134,26 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
       revenue_ex_vat - my_share_amount - vacation_pay_amount;
     const expense = vat_amount + employers_share_amount;
     const profit = revenue - expense + tips;
+
+    // Calculate totals shift hours
+    const startParts = shift_start.split(':').map((num) => +num);
+    const endParts = shift_end.split(':').map((num) => +num);
+
+    const startDate = new Date(0, 0, 0, startParts[0], startParts[1]).getTime();
+    const endDate = new Date(
+      0,
+      0,
+      // if end hour is less than start hour, it means the shift ended the next day
+      endParts[0] < startParts[0] ? 1 : 0,
+      endParts[0],
+      endParts[1]
+    ).getTime();
+
+    // Calculate shift duration in milliseconds
+    const shift_duration = endDate - startDate;
+
+    // const hours = Math.floor(shift_duration / (1000 * 60 * 60));
+    // const minutes = Math.floor((shift_duration / (1000 * 60)) % 60);
 
     const newProfit = {
       user_id,
@@ -142,6 +167,9 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
       revenue,
       date: date.toDateString(),
       tips,
+      shift_start,
+      shift_end,
+      shift_duration: shift_duration.toString(),
     };
 
     addRevenue(newProfit);
@@ -162,7 +190,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
         <DialogHeader>
           <DialogTitle>Add revenue</DialogTitle>
           <DialogDescription>
-            What&apos;s your total revenue for the day?
+            Add your revenue, tips and shift hours for the day.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -202,6 +230,42 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
                 </FormItem>
               )}
             />
+            {/* Shift hours */}
+            <div className='grid grid-cols-4 items-center mt-1'>
+              <p className='text-sm font-medium leading-none text-right mr-4 cursor-default'>
+                Shift
+              </p>
+              <div className='col-span-3 grid grid-cols-2 gap-2'>
+                <FormField
+                  control={form.control}
+                  name='shift_start'
+                  render={({ field }) => (
+                    <FormItem className='relative'>
+                      <FormLabel className='absolute text-xs bg-background left-2 top-[-2px] px-1 text-muted-foreground'>
+                        start
+                      </FormLabel>
+                      <FormControl>
+                        <Input type='time' required {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='shift_end'
+                  render={({ field }) => (
+                    <FormItem className='relative'>
+                      <FormLabel className='absolute text-xs bg-background left-2 top-[-2px] px-1 text-muted-foreground'>
+                        end
+                      </FormLabel>
+                      <FormControl>
+                        <Input type='time' required {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
             {/* Date component from shadcn-ui */}
             <FormField
               control={form.control}

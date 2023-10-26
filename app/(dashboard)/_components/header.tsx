@@ -74,6 +74,7 @@ const Header = () => {
         <span className='w-[1px] h-8 bg-muted-foreground/20 dark:bg-muted mr-2 sm:mx-2' />
         <Button variant='ghost' size='icon' asChild>
           <a href='https://github.com/murxify/rexi' target='_blank'>
+            <span className='sr-only'>github</span>
             <Github className='h-[1.2rem] w-[1.2rem]' />
           </a>
         </Button>

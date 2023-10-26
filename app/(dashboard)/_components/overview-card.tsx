@@ -24,7 +24,9 @@ const OverviewCard = ({
   return (
     <Card>
       <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-        <CardTitle className='text-sm font-medium'>{title}</CardTitle>
+        <p className='text-sm font-medium leading-none tracking-tight'>
+          {title}
+        </p>
         <Icon className='w-5 h-5 text-muted-foreground' />
       </CardHeader>
       <CardContent className='pb-0'>

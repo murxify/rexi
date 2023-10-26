@@ -74,7 +74,7 @@ export const columns: ColumnDef<
   {
     accessorKey: 'tips',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Tip' />
+      <DataTableColumnHeader column={column} title='Tips' />
     ),
     cell: ({ row }) => <>{formatCurrency(row.getValue('tips'))}</>,
   },

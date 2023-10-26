@@ -6,6 +6,7 @@ import { Database } from '@/lib/database.types';
 import { formatCurrency } from '@/utils/currency';
 import ReportActions from './report-actions';
 import DataTableColumnHeader from './data-table-column-header';
+import getShiftDuration from '@/utils/get-shift-duration';
 
 export const columns: ColumnDef<
   Database['public']['Tables']['profits']['Row']
@@ -18,59 +19,71 @@ export const columns: ColumnDef<
     enableHiding: false,
   },
   {
+    accessorKey: 'shift_duration',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Duration' />
+    ),
+    cell: ({ row }) => <>{getShiftDuration(row.getValue('shift_duration'))}</>,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'shift_start',
+    header: () => <>Start</>,
+  },
+  {
+    accessorKey: 'shift_end',
+    header: () => <>End</>,
+  },
+  {
     accessorKey: 'revenue',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Revenue' />
     ),
-    cell: ({ row }) => <div>{formatCurrency(row.getValue('revenue'))}</div>,
+    cell: ({ row }) => <>{formatCurrency(row.getValue('revenue'))}</>,
     enableHiding: false,
   },
   {
     accessorKey: 'revenue_ex_vat',
-    header: () => <div>Rev. Ex VAT</div>,
-    cell: ({ row }) => (
-      <div>{formatCurrency(row.getValue('revenue_ex_vat'))}</div>
-    ),
+    header: () => <>Ex VAT</>,
+    cell: ({ row }) => <>{formatCurrency(row.getValue('revenue_ex_vat'))}</>,
   },
   {
     accessorKey: 'vat_amount',
-    header: () => <div>VAT</div>,
-    cell: ({ row }) => <div>{formatCurrency(row.getValue('vat_amount'))}</div>,
+    header: () => <>VAT</>,
+    cell: ({ row }) => <>{formatCurrency(row.getValue('vat_amount'))}</>,
   },
   {
     accessorKey: 'my_share_amount',
-    header: () => <div>My Share</div>,
-    cell: ({ row }) => (
-      <div>{formatCurrency(row.getValue('my_share_amount'))}</div>
-    ),
+    header: () => <>My Share</>,
+    cell: ({ row }) => <>{formatCurrency(row.getValue('my_share_amount'))}</>,
   },
   {
     accessorKey: 'employers_share_amount',
-    header: () => <div>Employers Share</div>,
+    header: () => <>Employers Share</>,
     cell: ({ row }) => (
-      <div>{formatCurrency(row.getValue('employers_share_amount'))}</div>
+      <>{formatCurrency(row.getValue('employers_share_amount'))}</>
     ),
   },
   {
     accessorKey: 'vacation_pay_amount',
-    header: () => <div>Vacation Pay</div>,
+    header: () => <>Vacation Pay</>,
     cell: ({ row }) => (
-      <div>{formatCurrency(row.getValue('vacation_pay_amount'))}</div>
+      <>{formatCurrency(row.getValue('vacation_pay_amount'))}</>
     ),
   },
   {
     accessorKey: 'tips',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Tips' />
+      <DataTableColumnHeader column={column} title='Tip' />
     ),
-    cell: ({ row }) => <div>{formatCurrency(row.getValue('tips'))}</div>,
+    cell: ({ row }) => <>{formatCurrency(row.getValue('tips'))}</>,
   },
   {
     accessorKey: 'profit',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Profit' />
     ),
-    cell: ({ row }) => <div>{formatCurrency(row.getValue('profit'))}</div>,
+    cell: ({ row }) => <>{formatCurrency(row.getValue('profit'))}</>,
     enableHiding: false,
   },
   {
@@ -78,7 +91,7 @@ export const columns: ColumnDef<
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Expense' />
     ),
-    cell: ({ row }) => <div>{formatCurrency(row.getValue('expense'))}</div>,
+    cell: ({ row }) => <>{formatCurrency(row.getValue('expense'))}</>,
     enableHiding: false,
   },
   {

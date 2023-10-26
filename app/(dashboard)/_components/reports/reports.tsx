@@ -12,12 +12,7 @@ import EmptyState from '../empty-state';
 const Reports = () => {
   const supabase = createClientComponentClient<Database>();
 
-  const {
-    isPending,
-    isError,
-    data: profits,
-    error,
-  } = useQuery({
+  const { isPending, isError, data, error } = useQuery({
     queryKey: ['profits'],
     queryFn: async () => {
       const { data, error } = await supabase.from('profits').select();
@@ -35,11 +30,11 @@ const Reports = () => {
     return <span>Error: {error.message}</span>;
   }
 
-  if (profits.length === 0) {
+  if (data.length === 0) {
     return <EmptyState />;
   }
 
-  return <DataTable columns={columns} data={profits} />;
+  return <DataTable columns={columns} data={data} />;
 };
 
 export default Reports;

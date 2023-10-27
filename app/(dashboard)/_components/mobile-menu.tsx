@@ -1,17 +1,13 @@
-import { useState } from 'react';
 import Link from 'next/link';
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { LucideIcon, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
-import Logo from '@/components/logo';
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 
 interface MobileMenuProps {
   navigations: {
@@ -22,36 +18,42 @@ interface MobileMenuProps {
 }
 
 const MobileMenu = ({ navigations }: MobileMenuProps) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
-    <DropdownMenu onOpenChange={() => setMenuOpen((open) => !open)}>
-      <DropdownMenuTrigger asChild>
+    <Sheet>
+      <SheetTrigger asChild>
         <Button
           variant='ghost'
           size='icon'
           className='sm:hidden focus-visible:ring-1 focus-visible:ring-offset-1'
         >
-          {!menuOpen ? <Menu /> : <X />}
+          <Menu />
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align='start' className='w-52'>
-        <div className='flex justify-center'>
-          <Logo />
-        </div>
-        <DropdownMenuSeparator />
-        <nav>
+      </SheetTrigger>
+      <SheetContent side={'left'} className='p-2'>
+        <nav className='flex flex-col gap-3 justify-center h-full items-center relative'>
+          <SheetClose asChild>
+            <Button
+              variant='ghost'
+              size='icon'
+              className='absolute left-0 top-0'
+            >
+              <span className='sr-only'>Close</span>
+              <X />
+            </Button>
+          </SheetClose>
           {navigations.map((nav) => (
-            <DropdownMenuItem key={nav.name} asChild>
-              <Link href={nav.href} className='flex items-center'>
-                <nav.Icon className='w-5 h-5 mr-2' />
+            <SheetClose key={nav.name} asChild>
+              <Link
+                href={nav.href}
+                className='text-3xl tracking-tight flex items-center'
+              >
                 {nav.name}
               </Link>
-            </DropdownMenuItem>
+            </SheetClose>
           ))}
         </nav>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </SheetContent>
+    </Sheet>
   );
 };
 

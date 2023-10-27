@@ -6,7 +6,7 @@ import { Database } from '@/lib/database.types';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import Overview from '../../_components/overview';
+import Overview from '../../_components/overview/overview';
 import DashboardHeader from '../../_components/dashboard-header';
 import Reports from '../../_components/reports/reports';
 
@@ -16,8 +16,8 @@ const DashboardPage = async () => {
     cookies: () => cookieStore,
   });
 
-  const { data: settings } = await supabase.from('contract').select().single();
-  if (!settings) redirect('/welcome');
+  const { data: contract } = await supabase.from('contracts').select().single();
+  if (!contract) redirect('/welcome');
 
   return (
     <>

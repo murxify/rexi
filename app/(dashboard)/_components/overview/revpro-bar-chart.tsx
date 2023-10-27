@@ -12,7 +12,7 @@ import {
 } from 'recharts';
 
 import { cn } from '@/lib/utils';
-import { formatCurrency } from '@/utils/currency';
+import { formatCurrency } from '@/app/(dashboard)/_utils/format-currency';
 
 import { Card } from '@/components/ui/card';
 

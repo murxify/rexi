@@ -4,11 +4,11 @@ import { useQuery } from '@tanstack/react-query';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { Database } from '@/lib/database.types';
-import getShiftDuration from '@/utils/get-shift-duration';
+import { getShiftDuration } from '@/app/(dashboard)/_utils/get-shift-duration';
 
 import { BadgeDollarSign, BadgeMinus, BadgePlus, Clock } from 'lucide-react';
 
-import EmptyState from './empty-state';
+import EmptyState from '../empty-state';
 import RevProBarChart from './revpro-bar-chart';
 import OverviewCard from './overview-card';
 import AvgCard from './avg-card';

@@ -78,7 +78,7 @@ const WelcomeForm = () => {
     } = await supabase.auth.getUser();
 
     const { error } = await supabase
-      .from('contract')
+      .from('contracts')
       .insert({ ...userInput, user_id: user?.id as string })
       .select();
 

@@ -3,10 +3,10 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { Database } from '@/lib/database.types';
 
-import { formatCurrency } from '@/utils/currency';
+import { formatCurrency } from '@/app/(dashboard)/_utils/format-currency';
 import ReportActions from './report-actions';
 import DataTableColumnHeader from './data-table-column-header';
-import getShiftDuration from '@/utils/get-shift-duration';
+import { getShiftDuration } from '@/app/(dashboard)/_utils/get-shift-duration';
 
 export const columns: ColumnDef<
   Database['public']['Tables']['profits']['Row']

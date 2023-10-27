@@ -107,11 +107,14 @@ const EditRevenue = ({
     });
   }, [selected]);
 
-  // Get settings
-  const { data: settings } = useQuery({
-    queryKey: ['settings'],
+  // Get contract
+  const { data: contract } = useQuery({
+    queryKey: ['contract'],
     queryFn: async () => {
-      const { data, error } = await supabase.from('contract').select().single();
+      const { data, error } = await supabase
+        .from('contracts')
+        .select()
+        .single();
 
       if (error) throw error;
       return data;
@@ -151,7 +154,7 @@ const EditRevenue = ({
   const onEditRevenue = (userInput: z.infer<typeof formSchema>) => {
     const { newRevenue, newDate, newTips, newShiftStart, newShiftEnd } =
       userInput;
-    const { share_rate, vacation_pay_rate, vat_rate } = settings!;
+    const { share_rate, vacation_pay_rate, vat_rate } = contract!;
 
     // Calculate total shift hours
     const startParts = newShiftStart.split(':').map((num) => +num);

@@ -1,4 +1,4 @@
-const getShiftDuration = (duration: number) => {
+export const getShiftDuration = (duration: number) => {
   const hours = Math.floor(duration / (1000 * 60 * 60));
   const minutes = Math.floor((duration / (1000 * 60)) % 60);
 
@@ -7,5 +7,3 @@ const getShiftDuration = (duration: number) => {
 
   return `${hoursString} ${minutesString}`;
 };
-
-export default getShiftDuration;

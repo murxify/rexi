@@ -9,7 +9,7 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      contract: {
+      contracts: {
         Row: {
           created_at: string
           share_rate: number
@@ -33,7 +33,7 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "contract_user_id_fkey"
+            foreignKeyName: "contracts_user_id_fkey"
             columns: ["user_id"]
             referencedRelation: "users"
             referencedColumns: ["id"]

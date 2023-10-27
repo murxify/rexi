@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { LucideIcon } from 'lucide-react';
 import { Database } from '@/lib/database.types';
 
-import { formatCurrency } from '@/utils/currency';
+import { formatCurrency } from '@/app/(dashboard)/_utils/format-currency';
 import CustomToolTip from './custom-tooltip';
 
 interface OverviewCardProps {

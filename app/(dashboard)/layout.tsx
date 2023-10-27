@@ -5,7 +5,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
 
 import { Toaster } from '@/components/ui/toaster';
-import Header from './_components/header';
+import Header from './_components/layout-header';
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const cookieStore = cookies();

@@ -82,11 +82,14 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
     },
   });
 
-  // Get settings
-  const { data: settings } = useQuery({
-    queryKey: ['settings'],
+  // Get contract
+  const { data: contract } = useQuery({
+    queryKey: ['contract'],
     queryFn: async () => {
-      const { data, error } = await supabase.from('contract').select().single();
+      const { data, error } = await supabase
+        .from('contracts')
+        .select()
+        .single();
 
       if (error) throw error;
       return data;
@@ -124,7 +127,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
 
   const onAddRevenue = (userInput: z.infer<typeof formSchema>) => {
     const { revenue, date, tips, shift_start, shift_end } = userInput;
-    const { share_rate, vacation_pay_rate, vat_rate, user_id } = settings!;
+    const { share_rate, vacation_pay_rate, vat_rate, user_id } = contract!;
 
     const vat_amount = revenue * (vat_rate / 100);
     const revenue_ex_vat = revenue - vat_amount;

@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { formatCurrency } from '@/utils/currency';
-import getShiftDuration from '@/utils/get-shift-duration';
+import { formatCurrency } from '@/app/(dashboard)/_utils/format-currency';
+import { getShiftDuration } from '@/app/(dashboard)/_utils/get-shift-duration';
 
 const CustomToolTip = ({ payload, active }: any) => {
   if (active) {

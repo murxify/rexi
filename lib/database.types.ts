@@ -9,6 +9,37 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      contract: {
+        Row: {
+          created_at: string
+          share_rate: number
+          user_id: string
+          vacation_pay_rate: number
+          vat_rate: number
+        }
+        Insert: {
+          created_at?: string
+          share_rate: number
+          user_id: string
+          vacation_pay_rate: number
+          vat_rate: number
+        }
+        Update: {
+          created_at?: string
+          share_rate?: number
+          user_id?: string
+          vacation_pay_rate?: number
+          vat_rate?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       profits: {
         Row: {
           created_at: string
@@ -67,37 +98,6 @@ export interface Database {
         Relationships: [
           {
             foreignKeyName: "profits_user_id_fkey"
-            columns: ["user_id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      settings: {
-        Row: {
-          created_at: string
-          share_rate: number
-          user_id: string
-          vacation_pay_rate: number
-          vat_rate: number
-        }
-        Insert: {
-          created_at?: string
-          share_rate: number
-          user_id: string
-          vacation_pay_rate: number
-          vat_rate: number
-        }
-        Update: {
-          created_at?: string
-          share_rate?: number
-          user_id?: string
-          vacation_pay_rate?: number
-          vat_rate?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "settings_user_id_fkey"
             columns: ["user_id"]
             referencedRelation: "users"
             referencedColumns: ["id"]

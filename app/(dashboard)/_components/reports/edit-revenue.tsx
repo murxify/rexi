@@ -111,7 +111,7 @@ const EditRevenue = ({
   const { data: settings } = useQuery({
     queryKey: ['settings'],
     queryFn: async () => {
-      const { data, error } = await supabase.from('settings').select().single();
+      const { data, error } = await supabase.from('contract').select().single();
 
       if (error) throw error;
       return data;

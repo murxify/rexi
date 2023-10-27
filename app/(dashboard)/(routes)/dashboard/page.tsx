@@ -16,7 +16,7 @@ const DashboardPage = async () => {
     cookies: () => cookieStore,
   });
 
-  const { data: settings } = await supabase.from('settings').select().single();
+  const { data: settings } = await supabase.from('contract').select().single();
   if (!settings) redirect('/welcome');
 
   return (

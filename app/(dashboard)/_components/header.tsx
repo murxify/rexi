@@ -38,8 +38,8 @@ const Header = () => {
     setLoading(true);
     queryClient.clear();
     await supabase.auth.signOut();
+    router.refresh();
     router.push('/');
-    setLoading(false);
   };
 
   return (

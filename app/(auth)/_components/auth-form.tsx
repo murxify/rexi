@@ -61,7 +61,10 @@ const AuthForm = ({ login = false }: AuthFormProps) => {
       });
 
       if (error) setError(error.message);
-      if (data.session) router.push('/dashboard');
+      if (data.session) {
+        router.push('/dashboard');
+        router.refresh();
+      }
     }
 
     // Sign up

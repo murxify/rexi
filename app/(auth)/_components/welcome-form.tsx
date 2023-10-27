@@ -78,7 +78,7 @@ const WelcomeForm = () => {
     } = await supabase.auth.getUser();
 
     const { error } = await supabase
-      .from('settings')
+      .from('contract')
       .insert({ ...userInput, user_id: user?.id as string })
       .select();
 
@@ -94,9 +94,9 @@ const WelcomeForm = () => {
         <h1 className='text-4xl font-extrabold tracking-tight lg:text-5xl'>
           Contract details
         </h1>
-        <h4 className='text-xl font-semibold tracking-tight text-muted-foreground'>
+        <p className='mt-2 font-semibold text-muted-foreground'>
           Please provide us a few details about your current driver contract.
-        </h4>
+        </p>
       </div>
 
       <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>

@@ -17,7 +17,7 @@ const WelcomePage = async () => {
   } = await supabase.auth.getSession();
   if (!session) redirect('/login');
 
-  const { data: settings } = await supabase.from('settings').select().single();
+  const { data: settings } = await supabase.from('contract').select().single();
   if (settings) redirect('/dashboard');
 
   return <WelcomeForm />;

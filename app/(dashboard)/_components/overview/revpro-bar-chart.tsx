@@ -37,12 +37,14 @@ const RevProBarChart = ({ data }: RevProBarChartProps) => {
             dataKey='day'
             height={40}
             angle={90}
-            stroke='hsl(var(--muted-foreground))'
+            // stroke='hsl(var(--muted-foreground))'
+            stroke='transparent'
             tick={<CustomXAxisTick />}
           />
           <YAxis
             tick={<CustomYAxisTick />}
-            stroke='hsl(var(--muted-foreground))'
+            // stroke='hsl(var(--muted-foreground))'
+            stroke='transparent'
           />
           <Tooltip
             content={<CustomToolTip />}

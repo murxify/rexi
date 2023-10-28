@@ -20,6 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+
 import DataTablePagination from './data-table-pagination';
 import { DataTableViewOptions } from './data-table-view-options';
 
@@ -32,7 +33,22 @@ const DataTable = <TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) => {
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+    () => {
+      const visibleColumns = localStorage.getItem('visibleColumns');
+      return visibleColumns
+        ? JSON.parse(visibleColumns)
+        : {
+            shift_start: false,
+            shift_end: false,
+            revenue_ex_vat: false,
+            vat_amount: false,
+            my_share_amount: false,
+            employers_share_amount: false,
+            vacation_pay_amount: false,
+          };
+    }
+  );
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
@@ -51,7 +67,7 @@ const DataTable = <TData, TValue>({
 
   return (
     <>
-      <DataTableViewOptions table={table} />
+      <DataTableViewOptions table={table} columnVisibility={columnVisibility} />
       <div className='rounded-md border'>
         <Table>
           <TableHeader>

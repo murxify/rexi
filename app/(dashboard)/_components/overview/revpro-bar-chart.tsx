@@ -31,7 +31,7 @@ const RevProBarChart = ({ data }: RevProBarChartProps) => {
   return (
     <Card className='sm:col-span-2 p-2 lg:col-span-3'>
       <ResponsiveContainer height={400}>
-        <BarChart data={modifiedData} margin={{ left: -10 }}>
+        <BarChart data={modifiedData} margin={{ left: -10, bottom: -15 }}>
           <CartesianGrid stroke='hsl(var(--chart-grid))' />
           <XAxis
             dataKey='day'

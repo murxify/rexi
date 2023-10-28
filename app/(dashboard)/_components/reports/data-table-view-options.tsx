@@ -1,8 +1,8 @@
 'use client';
 
-import { Settings2 } from 'lucide-react';
-import { Table } from '@tanstack/react-table';
+import { Table, VisibilityState } from '@tanstack/react-table';
 
+import { Settings2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -14,10 +14,12 @@ import { Label } from '@/components/ui/label';
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
+  columnVisibility: VisibilityState;
 }
 
 export function DataTableViewOptions<TData>({
   table,
+  columnVisibility,
 }: DataTableViewOptionsProps<TData>) {
   return (
     <DropdownMenu>
@@ -46,7 +48,16 @@ export function DataTableViewOptions<TData>({
               >
                 <Checkbox
                   checked={column.getIsVisible()}
-                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                  onCheckedChange={(value) => {
+                    column.toggleVisibility(!!value);
+                    localStorage.setItem(
+                      'visibleColumns',
+                      JSON.stringify({
+                        ...columnVisibility,
+                        [column.id]: !!value,
+                      })
+                    );
+                  }}
                   id={column.id}
                 />
                 <Label htmlFor={column.id} className='w-full'>

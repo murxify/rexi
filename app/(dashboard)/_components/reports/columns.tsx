@@ -4,9 +4,11 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Database } from '@/lib/database.types';
 
 import { formatCurrency } from '@/app/(dashboard)/_utils/format-currency';
+import { getHourlyRate } from '../../_utils/get-hourly-rate';
+import { getShiftDuration } from '@/app/(dashboard)/_utils/get-shift-duration';
+
 import ReportActions from './report-actions';
 import DataTableColumnHeader from './data-table-column-header';
-import { getShiftDuration } from '@/app/(dashboard)/_utils/get-shift-duration';
 
 export const columns: ColumnDef<
   Database['public']['Tables']['profits']['Row']
@@ -33,6 +35,14 @@ export const columns: ColumnDef<
   {
     accessorKey: 'shift_end',
     header: () => <>End</>,
+  },
+  {
+    accessorKey: 'hourly_rate',
+    accessorFn: (row) => getHourlyRate(row.shift_duration, row.profit),
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Hourly Rate' />
+    ),
+    enableHiding: false,
   },
   {
     accessorKey: 'revenue',

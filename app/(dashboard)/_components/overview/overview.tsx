@@ -5,8 +5,15 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { Database } from '@/lib/database.types';
 import { getShiftDuration } from '@/app/(dashboard)/_utils/get-shift-duration';
+import { getHourlyRate } from '../../_utils/get-hourly-rate';
 
-import { BadgeDollarSign, BadgeMinus, BadgePlus, Clock } from 'lucide-react';
+import {
+  BadgeDollarSign,
+  BadgeMinus,
+  BadgePlus,
+  Timer,
+  Watch,
+} from 'lucide-react';
 
 import EmptyState from '../empty-state';
 import RevProBarChart from './revpro-bar-chart';
@@ -44,13 +51,13 @@ const Overview = () => {
   let totalRevenue = 0;
   let totalProfits = 0;
   let totalExpenses = 0;
-  let totalHours = 0;
+  let totalDuration = 0;
 
   data.forEach((item) => {
     totalRevenue += item.revenue;
     totalProfits += item.profit;
     totalExpenses += item.expense;
-    totalHours += item.shift_duration;
+    totalDuration += item.shift_duration;
   });
 
   const avgData = [
@@ -70,9 +77,14 @@ const Overview = () => {
       Icon: BadgeMinus,
     },
     {
+      title: 'Avg. Hourly Rate',
+      value: getHourlyRate(totalDuration, totalProfits),
+      Icon: Watch,
+    },
+    {
       title: 'Avg. Shift Duration',
-      value: getShiftDuration(totalHours / data.length),
-      Icon: Clock,
+      value: getShiftDuration(totalDuration / data.length),
+      Icon: Timer,
     },
   ];
 
@@ -100,9 +112,9 @@ const Overview = () => {
         dataKey='expense'
       />
       <OverviewCard
-        value={getShiftDuration(totalHours)}
+        value={getShiftDuration(totalDuration)}
         title='Total Hours'
-        Icon={Clock}
+        Icon={Timer}
         data={data}
         dataKey='shift_duration'
       />

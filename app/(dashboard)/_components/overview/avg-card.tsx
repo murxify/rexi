@@ -22,7 +22,7 @@ const AvgCard = ({ data }: AvgCardProps) => {
             </p>
             <item.Icon className='w-5 h-5 text-muted-foreground' />
           </div>
-          <p className='text-3xl font-bold'>
+          <p className='text-2xl font-bold'>
             {typeof item.value === 'number'
               ? formatCurrency(item.value)
               : item.value}

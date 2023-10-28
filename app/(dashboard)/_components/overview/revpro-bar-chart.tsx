@@ -1,5 +1,3 @@
-import { Database } from '@/lib/database.types';
-
 import {
   Bar,
   BarChart,
@@ -11,7 +9,7 @@ import {
   YAxis,
 } from 'recharts';
 
-import { cn } from '@/lib/utils';
+import { Database } from '@/lib/database.types';
 import { formatCurrency } from '@/app/(dashboard)/_utils/format-currency';
 
 import { Card } from '@/components/ui/card';
@@ -23,19 +21,15 @@ interface RevProBarChartProps {
 }
 
 const RevProBarChart = ({ data }: RevProBarChartProps) => {
-  const modifiedData = data.map((item) => {
-    return {
-      ...item,
-      day: `${new Date(item.date).getMonth() + 1}-${new Date(
-        item.date
-      ).getDate()}`,
-    };
-  });
+  const modifiedData = data.map((item) => ({
+    ...item,
+    day: `${new Date(item.date).getMonth() + 1}-${new Date(
+      item.date
+    ).getDate()}`,
+  }));
 
   return (
-    <Card
-      className={cn('sm:col-span-2 p-2', data.length >= 20 && 'lg:col-span-3')}
-    >
+    <Card className='sm:col-span-2 p-2 lg:col-span-3'>
       <ResponsiveContainer height={400}>
         <BarChart data={modifiedData} margin={{ left: -10 }}>
           <CartesianGrid stroke='hsl(var(--chart-grid))' />

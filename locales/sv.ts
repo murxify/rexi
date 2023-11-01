@@ -57,7 +57,7 @@ export default {
     dashboard: 'Dashboard',
     settings: 'inställningar',
     signOut: 'Logga ut',
-    addRevenue: 'Lägg till intäkter',
+    addRevenue: 'Lägg till intäkt',
     overView: {
       title: 'Översikt',
       totalRevenue: 'Totala intäkter',
@@ -118,10 +118,9 @@ export default {
       title: 'Börja bygga din dashboard!',
       description:
         'Innan vi kan skapa några rapporter måste vi först få in lite intäkter här!',
-      add: 'Lägg till intäkter',
+      add: 'Lägg till intäkt',
     },
     addEditModal: {
-      title: 'Lägg till intäkt',
       addDescription: 'Lägg till din intäkt, dricks och arbetstider för dagen.',
       revenue: 'Intäkt',
       tips: 'Dricks',
@@ -138,7 +137,6 @@ export default {
       editProblem: 'Det uppstod ett problem med att redigera din intäkt.',
       editSuccess: 'Intäkten har redigerats!',
       editQuestion: 'Vad vill du redigera?',
-      editTitle: 'Redigera intäkt',
       editDescription: 'Lägg till ny intäktsinformation för {date}',
       edit: 'Redigera intäkt',
       editing: 'Redigerar intäkt...',

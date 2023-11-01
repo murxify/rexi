@@ -241,7 +241,7 @@ const EditRevenue = ({
     >
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
-          <DialogTitle>{t('editTitle')}</DialogTitle>
+          <DialogTitle>{t('edit')}</DialogTitle>
           <DialogDescription>
             {t('editDescription', {
               date: <span>{selected?.date}</span>,
@@ -366,7 +366,7 @@ const EditRevenue = ({
               )}
             />
             <Button type='submit' className='ml-auto' disabled={isPending}>
-              {!isPending && t('editTitle')}
+              {!isPending && t('edit')}
               {isPending && (
                 <>
                   <LoaderIcon className='w-4 h-4 animate-spin mr-2' />

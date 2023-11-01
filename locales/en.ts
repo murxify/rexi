@@ -122,7 +122,6 @@ export default {
       add: 'Add Revenue',
     },
     addEditModal: {
-      title: 'Add Revenue',
       addDescription: 'Add your revenue, tips and shift hours for the day.',
       revenue: 'Revenue',
       tips: 'Tips',
@@ -139,7 +138,6 @@ export default {
       editProblem: 'There was a problem editing your revenue.',
       editSuccess: 'Revenue edited successfully!',
       editQuestion: 'What would you like to edit?',
-      editTitle: 'Edit Revenue',
       editDescription: 'Add new revenue details for {date}',
       edit: 'Edit Revenue',
       editing: 'Editing Revenue...',

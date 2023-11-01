@@ -63,7 +63,7 @@ export default {
       totalRevenue: 'Totala intäkter',
       totalProfits: 'Totala vinster',
       totalExpenses: 'Totala utgifter',
-      totalHours: 'totalt arbetade timmar',
+      totalHours: 'Totalt arbetade timmar',
       revenue: 'Intäkt',
       profit: 'Vinst',
       avgRevenue: 'Genomsnittlig intäkt',

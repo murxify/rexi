@@ -3,9 +3,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { Database } from '@/lib/database.types';
 
-import { formatCurrency } from '@/app/(dashboard)/_utils/format-currency';
-import { getHourlyRate } from '../../_utils/get-hourly-rate';
-import { getShiftDuration } from '@/app/(dashboard)/_utils/get-shift-duration';
+import { formatCurrency, getHourlyRate, getShiftDuration } from '@/lib/utils';
 
 import ReportActions from './report-actions';
 import DataTableColumnHeader from './data-table-column-header';

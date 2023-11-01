@@ -1,5 +1,5 @@
-import Aside from '@/app/(dashboard)/_components/settings/aside';
-import SettingsHeader from '@/app/(dashboard)/_components/settings/settings-header';
+import Aside from '../../../_components/settings/aside';
+import SettingsHeader from '../../../_components/settings/settings-header';
 
 const SettingsLayout = ({ children }: { children: React.ReactNode }) => {
   return (

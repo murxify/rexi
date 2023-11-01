@@ -10,7 +10,7 @@ import {
 } from 'recharts';
 
 import { Database } from '@/lib/database.types';
-import { formatCurrency } from '@/app/(dashboard)/_utils/format-currency';
+import { formatCurrency } from '@/lib/utils';
 
 import { Card } from '@/components/ui/card';
 

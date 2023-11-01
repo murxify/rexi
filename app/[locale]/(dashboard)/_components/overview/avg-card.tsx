@@ -1,4 +1,4 @@
-import { formatCurrency } from '@/app/(dashboard)/_utils/format-currency';
+import { formatCurrency } from '@/lib/utils';
 
 import { LucideIcon } from 'lucide-react';
 import { Card } from '@/components/ui/card';

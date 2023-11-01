@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 
+import { getCurrentLocale } from '@/locales/server';
+
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import QueryClientProvider from '@/components/providers/query-client-provider';
 
@@ -18,8 +20,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const locale = getCurrentLocale();
+
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className={inter.className}>
         <QueryClientProvider>
           <ThemeProvider

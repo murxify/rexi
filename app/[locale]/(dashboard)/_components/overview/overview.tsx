@@ -4,8 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { Database } from '@/lib/database.types';
-import { getShiftDuration } from '@/app/(dashboard)/_utils/get-shift-duration';
-import { getHourlyRate } from '../../_utils/get-hourly-rate';
+import { getShiftDuration, getHourlyRate } from '@/lib/utils';
 
 import {
   BadgeDollarSign,

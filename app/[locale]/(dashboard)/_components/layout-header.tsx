@@ -8,13 +8,12 @@ import { useQueryClient } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 import { useScopedI18n } from '@/locales/client';
 
-import { Github, Home, Loader, Settings } from 'lucide-react';
+import { Home, Loader, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ModeToggle } from '@/components/mode-toggle';
 
 import Logo from '@/components/logo';
 import MobileMenu from './mobile-menu';
-import ChangeLocale from '@/components/change-locale';
+import HeaderButtons from '@/components/header-buttons';
 
 const Header = () => {
   const [loading, setLoading] = useState(false);
@@ -74,15 +73,7 @@ const Header = () => {
             {t('signOut')}
           </Button>
         </div>
-        <span className='w-[1px] h-8 bg-muted-foreground/20 dark:bg-muted mr-2 sm:mx-2' />
-        <Button variant='ghost' size='icon' asChild>
-          <a href='https://github.com/murxify/rexi' target='_blank'>
-            <span className='sr-only'>github</span>
-            <Github className='h-[1.2rem] w-[1.2rem]' />
-          </a>
-        </Button>
-        <ChangeLocale />
-        <ModeToggle />
+        <HeaderButtons dashboard />
       </div>
     </header>
   );

@@ -5,12 +5,10 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
 import { getI18n } from '@/locales/server';
 
-import { Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ModeToggle } from '@/components/mode-toggle';
 
 import Logo from '@/components/logo';
-import ChangeLocale from '@/components/change-locale';
+import HeaderButtons from '@/components/header-buttons';
 
 const Header = async () => {
   const cookieStore = cookies();
@@ -48,15 +46,7 @@ const Header = async () => {
               </Button>
             </>
           )}
-          <span className='w-[1px] h-8 bg-muted-foreground/20 dark:bg-muted mr-2 sm:mx-2 hidden sm:block' />
-          <Button variant='ghost' size='icon' asChild>
-            <a href='https://github.com/murxify/rexi' target='_blank'>
-              <span className='sr-only'>github</span>
-              <Github className='h-[1.2rem] w-[1.2rem]' />
-            </a>
-          </Button>
-          <ChangeLocale />
-          <ModeToggle />
+          <HeaderButtons marketing />
         </div>
       </div>
     </header>

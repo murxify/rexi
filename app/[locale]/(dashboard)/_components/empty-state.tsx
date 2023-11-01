@@ -1,9 +1,13 @@
-import { Button } from '@/components/ui/button';
+import { useScopedI18n } from '@/locales/client';
+
 import { CarTaxiFront, Plus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 import AddRevenue from './add-revenue';
 
 const EmptyState = () => {
+  const t = useScopedI18n('dashboard.emptyState');
+
   return (
     <AddRevenue>
       <Button
@@ -12,15 +16,12 @@ const EmptyState = () => {
       >
         <CarTaxiFront className='w-12 h-12' />
         <p className='text-2xl font-semibold tracking-tight mt-4'>
-          Start building your dashboard!
+          {t('title')}
         </p>
-        <p>
-          Before we can create any reports, We&apos;ll first need to get som
-          revenue in here!
-        </p>
+        <p>{t('description')}</p>
         <div className='flex items-center mt-4'>
           <Plus className='h-4 w-4 mr-2' />
-          <p>Add revenue</p>
+          <p>{t('add')}</p>
         </div>
       </Button>
     </AddRevenue>

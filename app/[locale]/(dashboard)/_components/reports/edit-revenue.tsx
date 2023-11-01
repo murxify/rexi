@@ -9,6 +9,7 @@ import * as z from 'zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+import { useScopedI18n } from '@/locales/client';
 
 import { Coins, LoaderIcon, PiggyBank } from 'lucide-react';
 import { Calendar as CalendarIcon } from 'lucide-react';
@@ -82,6 +83,7 @@ const EditRevenue = ({
   const supabase = createClientComponentClient<Database>();
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const t = useScopedI18n('dashboard.addEditModal');
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -136,14 +138,14 @@ const EditRevenue = ({
     },
     onError: () =>
       toast({
-        title: 'Something went wrong.',
-        description: 'There was a problem editing your revenue.',
+        title: t('wentWrong'),
+        description: t('editProblem'),
         variant: 'destructive',
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['profits'] });
       toast({
-        description: 'Revenue edited successfully!',
+        description: t('editSuccess'),
         variant: 'success',
       });
       setSelected(null);
@@ -182,7 +184,7 @@ const EditRevenue = ({
       newShiftEnd === selected.shift_end
     ) {
       return toast({
-        title: 'What would you like to edit?',
+        title: t('editQuestion'),
         variant: 'destructive',
       });
     }
@@ -239,9 +241,11 @@ const EditRevenue = ({
     >
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
-          <DialogTitle>Edit revenue</DialogTitle>
+          <DialogTitle>{t('editTitle')}</DialogTitle>
           <DialogDescription>
-            Add new revenue details for {selected?.date}
+            {t('editDescription', {
+              date: <span>{selected?.date}</span>,
+            })}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -254,7 +258,9 @@ const EditRevenue = ({
               name='newRevenue'
               render={({ field }) => (
                 <FormItem className='grid grid-cols-4 items-center'>
-                  <FormLabel className='text-right mr-4'>Revenue</FormLabel>
+                  <FormLabel className='text-right mr-4'>
+                    {t('revenue')}
+                  </FormLabel>
                   <FormControl className='col-span-3'>
                     <div className='inline-flex items-center justify-end'>
                       <Input placeholder='3456' {...field} />
@@ -270,7 +276,7 @@ const EditRevenue = ({
               name='newTips'
               render={({ field }) => (
                 <FormItem className='grid grid-cols-4 items-center'>
-                  <FormLabel className='text-right mr-4'>Tips</FormLabel>
+                  <FormLabel className='text-right mr-4'>{t('tips')}</FormLabel>
                   <FormControl className='col-span-3'>
                     <div className='inline-flex items-center justify-end'>
                       <Input placeholder='0' {...field} />
@@ -284,7 +290,7 @@ const EditRevenue = ({
             {/* Shift hours */}
             <div className='grid grid-cols-4 items-center mt-1'>
               <p className='text-sm font-medium leading-none text-right mr-4 cursor-default'>
-                Shift
+                {t('shift')}
               </p>
               <div className='col-span-3 grid grid-cols-2 gap-2'>
                 <FormField
@@ -293,7 +299,7 @@ const EditRevenue = ({
                   render={({ field }) => (
                     <FormItem className='relative'>
                       <FormLabel className='absolute text-xs bg-background left-2 top-[-2px] px-1 text-muted-foreground'>
-                        start
+                        {t('start')}
                       </FormLabel>
                       <FormControl>
                         <Input type='time' required {...field} />
@@ -307,7 +313,7 @@ const EditRevenue = ({
                   render={({ field }) => (
                     <FormItem className='relative'>
                       <FormLabel className='absolute text-xs bg-background left-2 top-[-2px] px-1 text-muted-foreground'>
-                        end
+                        {t('end')}
                       </FormLabel>
                       <FormControl>
                         <Input type='time' required {...field} />
@@ -323,7 +329,7 @@ const EditRevenue = ({
               name='newDate'
               render={({ field }) => (
                 <FormItem className='grid grid-cols-4 items-center'>
-                  <FormLabel className='text-right mr-4'>Date</FormLabel>
+                  <FormLabel className='text-right mr-4'>{t('date')}</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -337,7 +343,7 @@ const EditRevenue = ({
                           {field.value ? (
                             format(field.value, 'PPP')
                           ) : (
-                            <span>Pick a date</span>
+                            <span>{t('pickDate')}</span>
                           )}
                           <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
                         </Button>
@@ -360,11 +366,11 @@ const EditRevenue = ({
               )}
             />
             <Button type='submit' className='ml-auto' disabled={isPending}>
-              {!isPending && 'Edit revenue'}
+              {!isPending && t('editTitle')}
               {isPending && (
                 <>
                   <LoaderIcon className='w-4 h-4 animate-spin mr-2' />
-                  Editing...
+                  {t('editing')}
                 </>
               )}
             </Button>

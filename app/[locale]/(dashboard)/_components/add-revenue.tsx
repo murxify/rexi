@@ -9,6 +9,7 @@ import * as z from 'zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+import { useScopedI18n } from '@/locales/client';
 
 import { Coins, LoaderIcon, PiggyBank } from 'lucide-react';
 import { Calendar as CalendarIcon } from 'lucide-react';
@@ -70,6 +71,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
   const supabase = createClientComponentClient<Database>();
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const t = useScopedI18n('dashboard.addEditModal');
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -110,14 +112,14 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
     },
     onError: () =>
       toast({
-        title: 'Something went wrong.',
-        description: 'There was a problem adding your revenue.',
+        title: t('wentWrong'),
+        description: t('addProblem'),
         variant: 'destructive',
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['profits'] });
       toast({
-        description: 'Revenue added successfully!',
+        description: t('addSuccess'),
         variant: 'success',
       });
       setIsOpen(false);
@@ -188,10 +190,8 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
-          <DialogTitle>Add revenue</DialogTitle>
-          <DialogDescription>
-            Add your revenue, tips and shift hours for the day.
-          </DialogDescription>
+          <DialogTitle>{t('add')}</DialogTitle>
+          <DialogDescription>{t('addDescription')}</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -203,7 +203,9 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
               name='revenue'
               render={({ field }) => (
                 <FormItem className='grid grid-cols-4 items-center'>
-                  <FormLabel className='text-right mr-4'>Revenue</FormLabel>
+                  <FormLabel className='text-right mr-4'>
+                    {t('revenue')}
+                  </FormLabel>
                   <FormControl className='col-span-3'>
                     <div className='inline-flex items-center justify-end'>
                       <Input placeholder='3456' {...field} />
@@ -219,7 +221,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
               name='tips'
               render={({ field }) => (
                 <FormItem className='grid grid-cols-4 items-center'>
-                  <FormLabel className='text-right mr-4'>Tips</FormLabel>
+                  <FormLabel className='text-right mr-4'>{t('tips')}</FormLabel>
                   <FormControl className='col-span-3'>
                     <div className='inline-flex items-center justify-end'>
                       <Input placeholder='0' {...field} />
@@ -233,7 +235,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
             {/* Shift hours */}
             <div className='grid grid-cols-4 items-center mt-1'>
               <p className='text-sm font-medium leading-none text-right mr-4 cursor-default'>
-                Shift
+                {t('shift')}
               </p>
               <div className='col-span-3 grid grid-cols-2 gap-2'>
                 <FormField
@@ -242,7 +244,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
                   render={({ field }) => (
                     <FormItem className='relative'>
                       <FormLabel className='absolute text-xs bg-background left-2 top-[-2px] px-1 text-muted-foreground'>
-                        start
+                        {t('start')}
                       </FormLabel>
                       <FormControl>
                         <Input type='time' required {...field} />
@@ -256,7 +258,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
                   render={({ field }) => (
                     <FormItem className='relative'>
                       <FormLabel className='absolute text-xs bg-background left-2 top-[-2px] px-1 text-muted-foreground'>
-                        end
+                        {t('end')}
                       </FormLabel>
                       <FormControl>
                         <Input type='time' required {...field} />
@@ -272,7 +274,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
               name='date'
               render={({ field }) => (
                 <FormItem className='grid grid-cols-4 items-center'>
-                  <FormLabel className='text-right mr-4'>Date</FormLabel>
+                  <FormLabel className='text-right mr-4'>{t('date')}</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -286,7 +288,7 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
                           {field.value ? (
                             format(field.value, 'PPP')
                           ) : (
-                            <span>Pick a date</span>
+                            <span>{t('pickDate')}</span>
                           )}
                           <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
                         </Button>
@@ -309,11 +311,11 @@ const AddRevenue = ({ children }: { children: React.ReactNode }) => {
               )}
             />
             <Button type='submit' className='ml-auto' disabled={isPending}>
-              {!isPending && 'Add revenue'}
+              {!isPending && t('add')}
               {isPending && (
                 <>
                   <LoaderIcon className='w-4 h-4 animate-spin mr-2' />
-                  Adding...
+                  {t('adding')}
                 </>
               )}
             </Button>

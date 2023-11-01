@@ -4,16 +4,19 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { useScopedI18n } from '@/locales/client';
+
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-const nav = [
-  { name: 'Profile', href: '/dashboard/settings' },
-  { name: 'Contract Details', href: '/dashboard/settings/contract' },
-];
-
 const Aside = () => {
   const pathname = usePathname();
+  const t = useScopedI18n('dashboard.settingsPage');
+
+  const nav = [
+    { name: t('profile.title'), href: '/dashboard/settings' },
+    { name: t('contract.title'), href: '/dashboard/settings/contract' },
+  ];
 
   return (
     <aside>

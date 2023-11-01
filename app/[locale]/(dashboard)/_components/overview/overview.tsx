@@ -5,6 +5,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { Database } from '@/lib/database.types';
 import { getShiftDuration, getHourlyRate } from '@/lib/utils';
+import { useScopedI18n } from '@/locales/client';
 
 import {
   BadgeDollarSign,
@@ -21,6 +22,7 @@ import AvgCard from './avg-card';
 
 const Overview = () => {
   const supabase = createClientComponentClient<Database>();
+  const t = useScopedI18n('dashboard.overView');
 
   const { isPending, isError, data, error } = useQuery({
     queryKey: ['profits'],
@@ -61,27 +63,27 @@ const Overview = () => {
 
   const avgData = [
     {
-      title: 'Avg. Revenue',
+      title: t('avgRevenue'),
       value: totalRevenue / data.length,
       Icon: BadgeDollarSign,
     },
     {
-      title: 'Avg. Profit',
+      title: t('avgProfit'),
       value: totalProfits / data.length,
       Icon: BadgePlus,
     },
     {
-      title: 'Avg. Expense',
+      title: t('avgExpense'),
       value: totalExpenses / data.length,
       Icon: BadgeMinus,
     },
     {
-      title: 'Avg. Hourly Rate',
+      title: t('avgHourlyRate'),
       value: getHourlyRate(totalDuration, totalProfits),
       Icon: Watch,
     },
     {
-      title: 'Avg. Shift Duration',
+      title: t('avgShiftLength'),
       value: getShiftDuration(totalDuration / data.length),
       Icon: Timer,
     },
@@ -91,28 +93,28 @@ const Overview = () => {
     <div className='grid sm:grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6 py-2'>
       <OverviewCard
         value={totalRevenue}
-        title='Total Revenue'
+        title={t('totalRevenue')}
         Icon={BadgeDollarSign}
         data={data}
         dataKey='revenue'
       />
       <OverviewCard
         value={totalProfits}
-        title='Total Profits'
+        title={t('totalProfits')}
         Icon={BadgePlus}
         data={data}
         dataKey='profit'
       />
       <OverviewCard
         value={totalExpenses}
-        title='Total Expenses'
+        title={t('totalExpenses')}
         Icon={BadgeMinus}
         data={data}
         dataKey='expense'
       />
       <OverviewCard
         value={getShiftDuration(totalDuration)}
-        title='Total Hours'
+        title={t('totalHours')}
         Icon={Timer}
         data={data}
         dataKey='shift_duration'

@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { Database } from '@/lib/database.types';
+import { getScopedI18n } from '@/locales/server';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -15,6 +16,7 @@ const DashboardPage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies: () => cookieStore,
   });
+  const t = await getScopedI18n('dashboard');
 
   const { data: contract } = await supabase.from('contracts').select().single();
   if (!contract) redirect('/welcome');
@@ -25,8 +27,8 @@ const DashboardPage = async () => {
 
       <Tabs defaultValue='overview'>
         <TabsList>
-          <TabsTrigger value='overview'>Overview</TabsTrigger>
-          <TabsTrigger value='reports'>Reports</TabsTrigger>
+          <TabsTrigger value='overview'>{t('overView.title')}</TabsTrigger>
+          <TabsTrigger value='reports'>{t('reports.title')}</TabsTrigger>
         </TabsList>
         <TabsContent value='overview'>
           <Overview />

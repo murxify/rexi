@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { Database } from '@/lib/database.types';
+import { useScopedI18n } from '@/locales/client';
 
 import { MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -22,6 +23,7 @@ const ReportActions = ({ data }: { data: DataType }) => {
   const [openDelete, setOpenDelete] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [selected, setSelected] = useState<DataType | null>(null);
+  const t = useScopedI18n('dashboard.reports.actions');
 
   const handleDeleteDialog = (data: DataType) => {
     setSelected(data);
@@ -38,16 +40,16 @@ const ReportActions = ({ data }: { data: DataType }) => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant='ghost' className='h-8 w-8 p-0'>
-            <span className='sr-only'>Open menu</span>
+            <span className='sr-only'>{t('open')}</span>
             <MoreHorizontal className='h-4 w-4' />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
           <DropdownMenuItem onClick={() => handleEditDialog(data)}>
-            Edit
+            {t('edit')}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleDeleteDialog(data)}>
-            Delete
+            {t('delete')}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

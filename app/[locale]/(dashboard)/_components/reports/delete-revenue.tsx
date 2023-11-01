@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { Database } from '@/lib/database.types';
+import { useScopedI18n } from '@/locales/client';
 
 import { LoaderIcon } from 'lucide-react';
 import {
@@ -36,6 +37,7 @@ const DeleteRevenue = ({
 }: DeleteRevenueProps) => {
   const queryClient = useQueryClient();
   const supabase = createClientComponentClient<Database>();
+  const t = useScopedI18n('dashboard.reports.delete');
 
   const { mutate: deleteById, isPending } = useMutation({
     mutationFn: async (id: number) => {
@@ -51,14 +53,14 @@ const DeleteRevenue = ({
     },
     onError: () =>
       toast({
-        title: 'Something went wrong.',
-        description: 'There was a problem deleting your revenue.',
+        title: t('wentWrong'),
+        description: t('problem'),
         variant: 'destructive',
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['profits'] });
       toast({
-        description: 'Revenue deleted successfully!',
+        description: t('success'),
         variant: 'success',
       });
       setSelected(null);
@@ -77,25 +79,25 @@ const DeleteRevenue = ({
     >
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t('title')}</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            revenue from <span>{selected?.date}</span> and remove your data from
-            our servers.
+            {t('description', {
+              date: <span>{selected?.date}</span>,
+            })}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
           <Button
             onClick={() => deleteById(selected?.id!)}
             variant={'destructive'}
             disabled={isPending}
           >
-            {!isPending && 'Delete revenue'}
+            {!isPending && t('delete')}
             {isPending && (
               <>
                 <LoaderIcon className='w-4 h-4 animate-spin mr-2' />
-                Deleting...
+                {t('deleting')}
               </>
             )}
           </Button>

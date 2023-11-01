@@ -39,13 +39,12 @@ const DataTable = <TData, TValue>({
       return visibleColumns
         ? JSON.parse(visibleColumns)
         : {
-            shift_start: false,
-            shift_end: false,
             revenue_ex_vat: false,
             vat_amount: false,
             my_share_amount: false,
-            employers_share_amount: false,
             vacation_pay_amount: false,
+            tips: false,
+            expense: false,
           };
     }
   );

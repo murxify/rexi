@@ -19,20 +19,22 @@ export const columns: ColumnDef<
     enableHiding: false,
   },
   {
+    accessorKey: 'shift_start',
+    header: () => <>Start</>,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'shift_end',
+    header: () => <>End</>,
+    enableHiding: false,
+  },
+  {
     accessorKey: 'shift_duration',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Duration' />
     ),
     cell: ({ row }) => <>{getShiftDuration(row.getValue('shift_duration'))}</>,
     enableHiding: false,
-  },
-  {
-    accessorKey: 'shift_start',
-    header: () => <>Start</>,
-  },
-  {
-    accessorKey: 'shift_end',
-    header: () => <>End</>,
   },
   {
     accessorKey: 'hourly_rate',
@@ -100,7 +102,6 @@ export const columns: ColumnDef<
       <DataTableColumnHeader column={column} title='Expense' />
     ),
     cell: ({ row }) => <>{formatCurrency(row.getValue('expense'))}</>,
-    enableHiding: false,
   },
   {
     id: 'actions',

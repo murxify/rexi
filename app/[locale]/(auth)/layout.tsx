@@ -1,8 +1,8 @@
 import Image from 'next/image';
 
 import { ModeToggle } from '@/components/mode-toggle';
-
 import Logo from '@/components/logo';
+import ChangeLocale from '@/components/change-locale';
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -11,7 +11,10 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
       <section className='hidden lg:block relative'>
         <div className='p-5 flex justify-between items-center absolute top-0 inset-x-0 z-50'>
           <Logo />
-          <ModeToggle />
+          <div>
+            <ChangeLocale />
+            <ModeToggle />
+          </div>
         </div>
         <div className='absolute inset-0'>
           <Image
@@ -26,7 +29,10 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
       <section className='relative'>
         <div className='p-5 lg:hidden flex justify-between items-center absolute top-0 inset-x-0 z-50'>
           <Logo />
-          <ModeToggle />
+          <div>
+            <ChangeLocale />
+            <ModeToggle />
+          </div>
         </div>
         {children}
       </section>

@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { Database } from '@/lib/database.types';
+import { useScopedI18n } from '@/locales/client';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -62,6 +63,7 @@ const WelcomeForm = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const t = useScopedI18n('welcome');
 
   const supabase = createClientComponentClient<Database>();
 
@@ -82,7 +84,7 @@ const WelcomeForm = () => {
       .insert({ ...userInput, user_id: user?.id as string })
       .select();
 
-    if (error) setError('Something went wrong.');
+    if (error) setError(t('wentWrong'));
     if (!error) router.push('/dashboard');
 
     setLoading(false);
@@ -92,10 +94,10 @@ const WelcomeForm = () => {
     <div className='h-full flex flex-col justify-center px-5 py-12 lg:px-8'>
       <div className='text-center mx-auto max-w-md border-b pb-2'>
         <h1 className='text-4xl font-extrabold tracking-tight lg:text-5xl'>
-          Contract details
+          {t('title')}
         </h1>
         <p className='mt-2 font-semibold text-muted-foreground'>
-          Please provide us a few details about your current driver contract.
+          {t('description')}
         </p>
       </div>
 
@@ -107,7 +109,7 @@ const WelcomeForm = () => {
               name='vat_rate'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>VAT rate %</FormLabel>
+                  <FormLabel>{t('vat')}</FormLabel>
                   <FormControl>
                     <Input placeholder='5.66' {...field} />
                   </FormControl>
@@ -120,7 +122,7 @@ const WelcomeForm = () => {
               name='share_rate'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Share rate %</FormLabel>
+                  <FormLabel>{t('share')}</FormLabel>
                   <FormControl>
                     <Input placeholder='39' {...field} />
                   </FormControl>
@@ -133,7 +135,7 @@ const WelcomeForm = () => {
               name='vacation_pay_rate'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Vacation Pay rate %</FormLabel>
+                  <FormLabel>{t('vacation')}</FormLabel>
                   <FormControl>
                     <Input placeholder='13' {...field} />
                   </FormControl>
@@ -143,11 +145,11 @@ const WelcomeForm = () => {
             />
             {error && <p className='text-red-600 text-sm'>{error}</p>}
             <Button className='w-full' type='submit' disabled={loading}>
-              {!loading && 'Submit'}
+              {!loading && t('submit')}
               {loading && (
                 <>
                   <LoaderIcon className='w-4 h-4 animate-spin mr-2' />
-                  Submitting...
+                  {t('submitting')}
                 </>
               )}
             </Button>

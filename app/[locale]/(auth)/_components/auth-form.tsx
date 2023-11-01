@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { LoaderIcon } from 'lucide-react';
+import { useI18n, useScopedI18n } from '@/locales/client';
 
 interface AuthFormProps {
   login?: boolean;
@@ -36,6 +37,7 @@ const AuthForm = ({ login = false }: AuthFormProps) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const t = useScopedI18n('auth');
 
   const supabase = createClientComponentClient<Database>();
 
@@ -79,8 +81,7 @@ const AuthForm = ({ login = false }: AuthFormProps) => {
 
       if (data.user?.identities) {
         //   Already signed up
-        if (data.user?.identities.length === 0)
-          setError('Something went wrong.');
+        if (data.user?.identities.length === 0) setError(t('wentWrong'));
         //   Sign up success
         if (data.user?.identities?.length > 0) router.push('/thank-you');
       }
@@ -93,7 +94,7 @@ const AuthForm = ({ login = false }: AuthFormProps) => {
     <div className='h-full flex flex-col justify-center px-5 py-12 lg:px-8'>
       <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
         <h2 className='border-b pb-2 text-center text-3xl font-semibold tracking-tight'>
-          {login ? 'Log in to your account' : 'Create an account'}
+          {login ? t('loginAccount') : t('createAccount')}
         </h2>
       </div>
 
@@ -106,9 +107,9 @@ const AuthForm = ({ login = false }: AuthFormProps) => {
               name='email'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email address</FormLabel>
+                  <FormLabel>{t('email')}</FormLabel>
                   <FormControl>
-                    <Input placeholder='example@email.com' {...field} />
+                    <Input placeholder={t('emailPlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -119,9 +120,9 @@ const AuthForm = ({ login = false }: AuthFormProps) => {
               name='password'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>{t('password')}</FormLabel>
                   <FormControl>
-                    <Input type='password' {...field} />
+                    <Input type='password' placeholder='********' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -129,19 +130,19 @@ const AuthForm = ({ login = false }: AuthFormProps) => {
             />
             {error && <p className='text-red-600 text-sm'>{error}</p>}
             <Button className='w-full' type='submit' disabled={loading}>
-              {login && !loading && 'Log in'}
-              {!login && !loading && 'Sign up'}
+              {login && !loading && t('login')}
+              {!login && !loading && t('signup')}
               {loading && (
                 <>
                   <LoaderIcon className='w-4 h-4 animate-spin mr-2' />
-                  {login ? 'Logging in...' : 'Creating account...'}
+                  {login ? t('loggingIn') : t('creatingAccount')}
                 </>
               )}
             </Button>
           </form>
         </Form>
         <p className='mt-4 text-center text-sm text-muted-foreground'>
-          {login ? 'Not a member?' : 'Already have an account?'}
+          {login ? t('notAMember') : t('alreadyHaveAccount')}
           <Button
             variant='link'
             size='sm'
@@ -149,7 +150,7 @@ const AuthForm = ({ login = false }: AuthFormProps) => {
             className='-ml-2 text-muted-foreground hover:text-foreground'
           >
             <Link href={`/${login ? 'signup' : 'login'}`}>
-              {login ? 'Create an account' : 'Log in'}
+              {login ? t('createAccount') : t('login')}
             </Link>
           </Button>
         </p>
